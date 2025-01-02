@@ -24,7 +24,7 @@ class HomeController extends Controller
      */
     public function index(): View
     {
-        return view('home');
+        return view('users.home');
     } 
   
     /**
@@ -34,9 +34,10 @@ class HomeController extends Controller
      */
     public function adminHome(): View
     {
-        return view('adminHome');
+        return view('admin.adminHome');
     }
-  
+    
+
     /**
      * Show the application dashboard.
      *
