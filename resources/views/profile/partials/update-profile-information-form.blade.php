@@ -1,4 +1,4 @@
-<section>
+<section class="my-10">
     <header>
         <h2 class="text-lg font-medium text-gray-900">
             {{ __('Profile Information') }}
@@ -47,8 +47,8 @@
             @endif
         </div>
 
-        <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
+        <div class="flex items-center gap-4" style="margin: 10px;">
+            <x-primary-button class="btn btn-primary">{{ __('Save') }}</x-primary-button>
 
             @if (session('status') === 'profile-updated')
                 <p

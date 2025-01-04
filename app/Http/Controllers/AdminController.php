@@ -12,5 +12,13 @@ class AdminController extends Controller
     {
         return view('admin.adminHome');
     }
+
+    public function profileAdmin(Request $request): View
+    {
+        return view('profile.edit', [
+            'user' => $request->user(),
+        ]);
+    }
 }
+
 
