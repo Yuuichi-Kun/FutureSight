@@ -1,0 +1,19 @@
+.navbar {
+    background: linear-gradient(90deg, #4c4cfc, #7a7ad4);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+}
+
+.navbar a {
+    color: black !important;
+    transition: color 0.2s ease-in-out;
+}
+
+.navbar a:hover {
+    color: rgb(66, 253, 41) !important;
+    text-decoration: underline;
+}
+
+.navbar-toggler-icon {
+    background-image: url('data:image/svg+xml;base64,...'); /* Custom icon */
+}
