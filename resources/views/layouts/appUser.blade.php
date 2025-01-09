@@ -24,8 +24,8 @@
         <!-- Navbar -->
         <nav class="navbar navbar-expand-md navbar-light bg-primary text-white shadow-sm">
         <div class="container-fluid">
-            <a class="navbar-brand text-white fw-bold" href="{{ route('admin.home') }}">
-            <box-icon name='chevron-left'></box-icon><h3>Get back to Dashboard</h3>
+            <a class="navbar-brand text-white fw-bold" href="{{ route('users.home') }}">
+            <box-icon name='chevron-left'></box-icon><h3>Get back to Homepage</h3>
             </a>
             <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                 <span class="navbar-toggler-icon"></span>
@@ -51,7 +51,7 @@
                                 @if(Auth::user()->avatar)
                                     <img class="rounded-circle me-2" src="/avatars/{{ Auth::user()->avatar }}" style="width:40px; height:40px; object-fit:cover;">
                                 @else
-                                    <img class="rounded-circle me-2" src="{{ asset('/img/default_profile.png') }}" style="width:40px; height:40px; object-fit:cover;">
+                                    <img class="rounded-circle me-2" src="/avatars/default_profile.png" style="width:40px; height:40px; object-fit:cover;">
                                 @endif
                                 <span>{{ Auth::user()->name }}</span>
                             </div>

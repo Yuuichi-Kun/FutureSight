@@ -480,7 +480,7 @@
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-area">
-                                        <canvas id="myAreaChart"></canvas>
+                                        <canvas id="UserRegistryChart" width="600" height="200"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -653,8 +653,8 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="text-center">
-                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                                            src="img/undraw_posting_photo.svg" alt="...">
+                                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
+                                    src="{{ asset('img/undraw_posting_photo.svg') }}" alt="...">
                                     </div>
                                     <p>Add some quality, svg illustrations to your project courtesy of <a
                                             target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a
@@ -754,8 +754,19 @@
 <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>
 
 <!-- Page level custom scripts -->
-<script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
 <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
+
+<script type="module">
+    import UserRegistryChart from '/js/registry-chart.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        const chart = new UserRegistryChart();
+        await chart.init();
+
+        // Perbarui chart setiap 5 menit
+        setInterval(() => chart.updateChart(), 300000);
+    })
+</script>
 
 </body>
 
