@@ -1,23 +1,25 @@
-@extends('layouts.app')
+@extends('layouts.user')
+
+@section('title', 'Home - Otakuspace')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
+    <section class="home" id="home">
+        <div class="container home-wrapper">
+            <div class="content-left" data-aos="fade-right">
+                <h1 class="heading">Meet Your Favorite Character Being Cosplayed In Any <span>Convention</span></h1>
+                <p class="subheading">We have partners with several conventions that you
+                    might feel at home there, we will guide you with our best service.</p>
+                <!-- Form panel section -->
+                
+                
+            </div>
+            <div class="content-right" data-aos="fade-left">
+                <div class="img-wrapper">
+                    <img src="{{ asset('img/Animek.png') }}" alt="Anime character">
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </section>
+
+    
 @endsection
