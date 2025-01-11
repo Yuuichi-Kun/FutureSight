@@ -51,7 +51,7 @@
                                 @if(Auth::user()->avatar)
                                     <img class="rounded-circle me-2" src="/avatars/{{ Auth::user()->avatar }}" style="width:40px; height:40px; object-fit:cover;">
                                 @else
-                                    <img class="rounded-circle me-2" src="/avatars/default_profile.png" style="width:40px; height:40px; object-fit:cover;">
+                                    <img class="rounded-circle me-2" src="{{ asset('/img/default_profile.png') }}" style="width:40px; height:40px; object-fit:cover;">
                                 @endif
                                 <span>{{ Auth::user()->name }}</span>
                             </div>
