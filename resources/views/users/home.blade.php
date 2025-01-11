@@ -9,7 +9,7 @@
                 <h1 class="heading">Meet Your Favorite Character Being Cosplayed In Any <span>Convention</span></h1>
                 <p class="subheading">We have partners with several conventions that you
                     might feel at home there, we will guide you with our best service.</p>
-                <!-- Form panel section -->
+                
                 
                 
             </div>
