@@ -7,6 +7,9 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\UserRegistryController;
 use App\Http\Controllers\Admin\BidangKeahlianController;
+use App\Http\Controllers\Admin\ProgramKeahlianController;
+use App\Http\Controllers\Admin\KonsentrasiKeahlianController;
+use App\Http\Controllers\Admin\TahunLulusController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -44,6 +47,9 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     // Bidang Keahlian Routes
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('bidang-keahlian', BidangKeahlianController::class);
+        Route::resource('program-keahlian', ProgramKeahlianController::class);
+        Route::resource('konsentrasi-keahlian', KonsentrasiKeahlianController::class);
+        Route::resource('tahun-lulus', TahunLulusController::class);
     });
     
     // User Registry API Route

@@ -58,11 +58,34 @@
             Data Master
         </div>
 
-        <!-- Nav Item - Bidang Keahlian -->
+        <!-- Nav Item - Keahlian Menu -->
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.bidang-keahlian.index') }}">
-                <i class="fas fa-fw fa-book"></i>
-                <span>Bidang Keahlian</span>
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseKeahlian"
+                aria-expanded="true" aria-controls="collapseKeahlian">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Keahlian</span>
+            </a>
+            <div id="collapseKeahlian" class="collapse" aria-labelledby="headingKeahlian" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Kelola Keahlian:</h6>
+                    <a class="collapse-item" href="{{ route('admin.bidang-keahlian.index') }}">
+                        <i class="fas fa-fw fa-book mr-1"></i>Bidang Keahlian
+                    </a>
+                    <a class="collapse-item" href="{{ route('admin.program-keahlian.index') }}">
+                        <i class="fas fa-fw fa-bookmark mr-1"></i>Program Keahlian
+                    </a>
+                    <a class="collapse-item" href="{{ route('admin.konsentrasi-keahlian.index') }}">
+                        <i class="fas fa-fw fa-tag mr-1"></i>Konsentrasi Keahlian
+                    </a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Nav Item - Tahun Lulus -->
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.tahun-lulus.index') }}">
+                <i class="fas fa-fw fa-calendar-alt"></i>
+                <span>Tahun Lulus</span>
             </a>
         </li>
 
