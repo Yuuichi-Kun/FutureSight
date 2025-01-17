@@ -5,7 +5,7 @@
             <div class="menu-wrapper">
                 <ul class="menu">
                     <li class="menu-item">
-                        <a href="{{ route('home') }}" class="menu-link {{ request()->routeIs('home') ? 'active' : '' }}">Isi Kuisioner</a>
+                        <a href="{{ route('alumni.register') }}" class="menu-link {{ request()->routeIs('alumni.register') ? 'active' : '' }}">Isi Kuisioner</a>
                     </li>
                     @auth
                     <li class="nav-item dropdown no-arrow">

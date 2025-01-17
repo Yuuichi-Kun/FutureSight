@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\AlumniRegisterController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\UserRegistryController;
 use App\Http\Controllers\Admin\BidangKeahlianController;
@@ -18,9 +19,17 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+// Authentication Routes
+Auth::routes();
+
 // User Routes
 Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    
+    Route::prefix('register')->group(function () {
+        Route::get('/', [AlumniRegisterController::class, 'showRegistrationForm'])->name('alumni.register');
+        Route::post('/', [AlumniRegisterController::class, 'register']);
+    });
     
     // User Profile Routes
     Route::prefix('profile')->group(function () {
@@ -56,6 +65,3 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('/api/user-activity', [UserRegistryController::class, 'getRegistryData']);
 });
 
-// Authentication Routes
-require __DIR__.'/auth.php';
-Auth::routes();
