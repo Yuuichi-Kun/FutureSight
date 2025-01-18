@@ -52,16 +52,22 @@
                         <div class="row mb-3">
                             <label class="col-md-4 col-form-label text-md-end">{{ __('Status Alumni') }}</label>
                             <div class="col-md-6">
-                                <select name="id_status_alumni" class="form-control @error('id_status_alumni') is-invalid @enderror">
-                                    <option value="">Pilih Status Alumni</option>
+                                <div class="btn-group w-100" role="group">
                                     @foreach($statusAlumni as $status)
-                                        <option value="{{ $status->id_status_alumni }}" {{ old('id_status_alumni') == $status->id_status_alumni ? 'selected' : '' }}>
+                                        <input type="radio" 
+                                            class="btn-check" 
+                                            name="id_status_alumni" 
+                                            id="status_{{ $status->id_status_alumni }}" 
+                                            value="{{ $status->id_status_alumni }}"
+                                            {{ old('id_status_alumni') == $status->id_status_alumni ? 'checked' : '' }}
+                                            required>
+                                        <label class="btn btn-outline-primary" for="status_{{ $status->id_status_alumni }}">
                                             {{ $status->status_alumni }}
-                                        </option>
+                                        </label>
                                     @endforeach
-                                </select>
+                                </div>
                                 @error('id_status_alumni')
-                                    <span class="invalid-feedback" role="alert">
+                                    <span class="invalid-feedback d-block" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror

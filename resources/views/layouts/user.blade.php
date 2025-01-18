@@ -27,10 +27,6 @@
     
     @yield('content')
 
-    @include('sections.statistics')
-
-    @include('sections.testimonials')
-
     @include('partials.footer')
 
     <!-- Scripts -->

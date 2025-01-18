@@ -14,18 +14,39 @@ use App\Http\Controllers\Admin\TahunLulusController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
-// Default route redirects to login
-Route::get('/', function () {
-    return view('auth.login');
+// Default route should not require authentication
+Route::get('/', [HomeController::class, 'welcome'])->name('welcome');
+
+// Authentication Routes with Email Verification
+Auth::routes(['verify' => true]);
+
+// Email Verification Routes
+Route::group(['middleware' => ['auth']], function() {
+    Route::get('/email/verify', function () { 
+        return view('auth.verify');
+    })->name('verification.notice');
+
+    Route::post('/email/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+        return back()->with('message', 'Verification link sent!');
+    })->name('verification.send');
+
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+        return redirect('/home');
+    })->middleware(['signed'])->name('verification.verify');
 });
 
-// Authentication Routes
-Auth::routes();
-
 // User Routes
-Route::middleware(['auth', 'user-access:user'])->group(function () {
+Route::middleware(['auth', 'verified', 'user-access:user'])->group(function () {
+    // User Dashboard
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+    // Password Reset Routes
+    Route::post('password', [App\Http\Controllers\Auth\PasswordController::class, 'update'])
+    ->name('password.update');
     
+    // Alumni Register Routes
     Route::prefix('register')->group(function () {
         Route::get('/', [AlumniRegisterController::class, 'showRegistrationForm'])->name('alumni.register');
         Route::post('/', [AlumniRegisterController::class, 'register']);
@@ -41,14 +62,18 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
 });
 
 // Admin Routes
-Route::middleware(['auth', 'user-access:admin'])->group(function () {
+Route::middleware(['auth', 'verified', 'user-access:admin'])->group(function () {
     // Admin Dashboard
     Route::get('/admin/home', [AdminController::class, 'dashboardAdmin'])->name('admin.home');
+
+    // Password Reset Routes
+    Route::post('password', [App\Http\Controllers\Auth\PasswordController::class, 'update'])
+    ->name('password.update');
     
     // Admin Profile Routes
     Route::prefix('admin/profile')->group(function () {
         Route::get('/', [AdminController::class, 'profileAdmin'])->name('profile.edit');
-        Route::patch('/', [ProfileController::class, 'update'])->name('rofile.update');
+        Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
         Route::post('/', [ProfileController::class, 'store'])->name('admin.profile.store');
     });
@@ -64,4 +89,3 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     // User Registry API Route
     Route::get('/api/user-activity', [UserRegistryController::class, 'getRegistryData']);
 });
-
