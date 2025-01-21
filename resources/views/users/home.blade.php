@@ -61,7 +61,7 @@
         <div class="col-heading" data-aos="fade-down-right" data-aos-duration="3000">
             <p class="label-testimoni">Apa yang mereka katakan ?</p>
             <h1 class="heading-testimoni">Apa yang para Alumni katakan tentang kami</h1>
-            <p class="subheading testimoni">Dengarkan pengalaman dan cerita sukses dari para alumni kami yang telah berhasil meraih impian mereka</p>
+            <p class="subheading testimoni"></p>
         </div>
         <div class="col-slider-testimoni" data-aos="fade-up-left" data-aos-duration="3000">
             <div class="swiper mySwiperTestimoni">

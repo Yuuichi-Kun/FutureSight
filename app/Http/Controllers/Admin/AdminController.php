@@ -6,12 +6,40 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\Alumni;
+use App\Models\TracerKerja;
+use App\Models\TracerKuliah;
+use App\Models\Testimoni;
 
 class AdminController extends Controller
 {
     public function dashboardAdmin()
     {
-        return view('admin.adminHome');
+        // Hitung statistik untuk dashboard
+        $totalAlumni = Alumni::count();
+        $totalBekerja = TracerKerja::count();
+        $totalKuliah = TracerKuliah::count();
+        $responseRate = ($totalAlumni > 0) ? 
+            round((($totalBekerja + $totalKuliah) / $totalAlumni) * 100) : 0;
+
+        // Tambahkan data untuk komponen baru
+        $latestTestimonials = Testimoni::with('alumni')
+            ->latest('tgl_testimoni')
+            ->take(5)
+            ->get();
+
+        $latestAlumni = Alumni::with(['statusAlumni', 'tahunLulus'])
+            ->latest('created_at')
+            ->take(5)
+            ->get();
+
+        return view('admin.adminHome', compact(
+            'totalAlumni',
+            'totalBekerja',
+            'totalKuliah',
+            'responseRate',
+            'latestTestimonials',
+            'latestAlumni'
+        ));
     }
 
     public function profileAdmin(Request $request): View
