@@ -43,28 +43,33 @@ class AlumniRegisterController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        $alumni = Alumni::create([
-            'id_tahun_lulus' => $request->id_tahun_lulus,
-            'id_konsentrasi_keahlian' => $request->id_konsentrasi_keahlian,
-            'id_status_alumni' => $request->id_status_alumni,
-            'nisn' => $request->nisn,
-            'nik' => $request->nik,
-            'nama_depan' => $request->nama_depan,
-            'nama_belakang' => $request->nama_belakang,
-            'jenis_kelamin' => $request->jenis_kelamin,
-            'tempat_lahir' => $request->tempat_lahir,
-            'tgl_lahir' => $request->tgl_lahir,
-            'alamat' => $request->alamat,
-            'no_hp' => $request->no_hp,
-            'akun_fb' => $request->akun_fb,
-            'akun_ig' => $request->akun_ig,
-            'akun_tiktok' => $request->akun_tiktok,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'status_login' => '0'
-        ]);
+        try {
+            $alumni = Alumni::create([
+                'id_user' => auth()->id(),
+                'id_tahun_lulus' => $request->id_tahun_lulus,
+                'id_konsentrasi_keahlian' => $request->id_konsentrasi_keahlian,
+                'id_status_alumni' => $request->id_status_alumni,
+                'nisn' => $request->nisn,
+                'nik' => $request->nik,
+                'nama_depan' => $request->nama_depan,
+                'nama_belakang' => $request->nama_belakang,
+                'jenis_kelamin' => $request->jenis_kelamin,
+                'tempat_lahir' => $request->tempat_lahir,
+                'tgl_lahir' => $request->tgl_lahir,
+                'alamat' => $request->alamat,
+                'no_hp' => $request->no_hp,
+                'akun_fb' => $request->akun_fb,
+                'akun_ig' => $request->akun_ig,
+                'akun_tiktok' => $request->akun_tiktok,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'status_login' => '0'
+            ]);
 
-        // Redirect ke halaman login dengan pesan sukses
-        return redirect()->route('home')->with('success', 'Registrasi berhasil! Silakan login.');
+            return redirect()->route('home')->with('success', 'Registrasi alumni berhasil!');
+        } catch (\Exception $e) {
+            return back()->withInput()
+                ->with('error', 'Terjadi kesalahan saat mendaftar. ' . $e->getMessage());
+        }
     }
 }

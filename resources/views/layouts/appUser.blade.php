@@ -12,12 +12,149 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
     <!-- CSS -->
      <link rel="stylesheet" href="{{ asset('css/special-nav.css')}}">
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
+    <style>
+        .profile-section {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+            transition: transform 0.2s;
+        }
+
+        .profile-section:hover {
+            transform: translateY(-2px);
+        }
+
+        .section-header {
+            border-bottom: 2px solid #f3f4f6;
+            padding: 1rem;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .avatar-upload {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .current-avatar {
+            border-radius: 50%;
+            border: 3px solid #e5e7eb;
+            transition: border-color 0.2s;
+        }
+
+        .current-avatar:hover {
+            border-color: #3b82f6;
+        }
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            font-weight: 500;
+            transition: opacity 0.2s;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            opacity: 0.9;
+            color: white;
+        }
+
+        .profile-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .nav-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid white;
+            object-fit: cover;
+        }
+
+        .btn-custom {
+            background-color: #3b82f6;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            transition: background-color 0.2s;
+        }
+
+        .btn-custom:hover {
+            background-color: #2563eb;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .dropdown-menu {
+            border: none;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-radius: 0.5rem;
+        }
+
+        .dropdown-item {
+            padding: 0.75rem 1.5rem;
+            transition: background-color 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f3f4f6;
+        }
+
+        .navbar-toggler {
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        .nav-link {
+            color: white !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: opacity 0.2s;
+        }
+
+        .nav-link:hover {
+            opacity: 0.9;
+        }
+
+        main {
+            min-height: calc(100vh - 70px);
+            background-color: #f3f4f6;
+            padding: 2rem 0;
+        }
+    </style>
 </head>
 <body class="bg-gray-100">
     <div id="app">
@@ -25,7 +162,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-primary text-white shadow-sm">
         <div class="container-fluid">
             <a class="navbar-brand text-white fw-bold" href="{{ route('home') }}">
-            <box-icon name='chevron-left'></box-icon><h3>Get back to Homepage</h3>
+            <box-icon name='chevron-left'></box-icon><h3>Get back to Dashboard</h3>
             </a>
             <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                 <span class="navbar-toggler-icon"></span>

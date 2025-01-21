@@ -11,8 +11,11 @@ use App\Http\Controllers\Admin\BidangKeahlianController;
 use App\Http\Controllers\Admin\ProgramKeahlianController;
 use App\Http\Controllers\Admin\KonsentrasiKeahlianController;
 use App\Http\Controllers\Admin\TahunLulusController;
+use App\Http\Controllers\QuestionnaireController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\LoginController;
 
 // Default route should not require authentication
 Route::get('/', [HomeController::class, 'welcome'])->name('welcome');
@@ -38,26 +41,34 @@ Route::group(['middleware' => ['auth']], function() {
 });
 
 // User Routes
-Route::middleware(['auth', 'verified', 'user-access:user'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     // User Dashboard
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-    // Password Reset Routes
-    Route::post('password', [App\Http\Controllers\Auth\PasswordController::class, 'update'])
-    ->name('password.update');
-    
     // Alumni Register Routes
-    Route::prefix('register')->group(function () {
-        Route::get('/', [AlumniRegisterController::class, 'showRegistrationForm'])->name('alumni.register');
-        Route::post('/', [AlumniRegisterController::class, 'register']);
+    Route::prefix('alumni')->group(function () {
+        Route::get('/register', [AlumniRegisterController::class, 'showRegistrationForm'])->name('alumni.register');
+        Route::post('/register', [AlumniRegisterController::class, 'register'])->name('alumni.store');
     });
-    
+
+    // Password Reset Routes - Fix the duplicate and conflicting route
+    Route::put('/profile/password', [App\Http\Controllers\Auth\UserPasswordController::class, 'update'])
+        ->name('password.update');
+
     // User Profile Routes
     Route::prefix('profile')->group(function () {
         Route::get('/', [UserController::class, 'profileUser'])->name('profileUser.edit');
         Route::patch('/', [UserProfileController::class, 'update'])->name('profile.update');
         Route::delete('/', [UserProfileController::class, 'destroy'])->name('profile.destroy');
         Route::post('/', [UserProfileController::class, 'store'])->name('user.profile.store');
+    });
+
+    // Questionnaire Routes
+    Route::prefix('questionnaire')->group(function () {
+        Route::get('/', [QuestionnaireController::class, 'index'])->name('questionnaire.index');
+        Route::post('/tracer-kerja', [QuestionnaireController::class, 'storeTracerKerja'])->name('questionnaire.store.kerja');
+        Route::post('/tracer-kuliah', [QuestionnaireController::class, 'storeTracerKuliah'])->name('questionnaire.store.kuliah');
+        Route::post('/testimoni', [QuestionnaireController::class, 'storeTestimoni'])->name('questionnaire.store.testimoni');
     });
 });
 
@@ -67,8 +78,8 @@ Route::middleware(['auth', 'verified', 'user-access:admin'])->group(function () 
     Route::get('/admin/home', [AdminController::class, 'dashboardAdmin'])->name('admin.home');
 
     // Password Reset Routes
-    Route::post('password', [App\Http\Controllers\Auth\PasswordController::class, 'update'])
-    ->name('password.update');
+    Route::put('admin/password', [App\Http\Controllers\Auth\AdminPasswordController::class, 'update'])
+        ->name('admin.password.update');
     
     // Admin Profile Routes
     Route::prefix('admin/profile')->group(function () {
@@ -88,4 +99,26 @@ Route::middleware(['auth', 'verified', 'user-access:admin'])->group(function () 
     
     // User Registry API Route
     Route::get('/api/user-activity', [UserRegistryController::class, 'getRegistryData']);
+
+    // Alumni Management Routes
+    Route::prefix('admin/alumni')->name('admin.alumni.')->group(function () {
+        Route::get('/', [AdminController::class, 'alumniIndex'])->name('index');
+        Route::get('/{alumni}', [AdminController::class, 'alumniShow'])->name('show');
+    });
+
+    Route::get('/api/tracer/bentuk-lembaga-stats', function() {
+        return App\Models\TracerKerja::getBentukLembagaStats();
+    })->name('api.tracer.bentuk-lembaga-stats');
+});
+
+// Authentication Routes
+Route::middleware('guest')->group(function () {
+    Route::get('login', [LoginController::class, 'showLoginForm'])
+        ->name('login');
+    Route::post('login', [LoginController::class, 'login']);
+    
+    // Register Routes
+    Route::get('register', [RegisteredUserController::class, 'create'])
+        ->name('register');
+    Route::post('register', [RegisteredUserController::class, 'store']);
 });

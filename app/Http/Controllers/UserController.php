@@ -14,4 +14,9 @@ class UserController extends Controller
             'user' => $request->user(),
         ]);
     }
+
+    public function tabPilihan(): View
+    {
+        return view('users.tab-pilihan');
+    }
 }

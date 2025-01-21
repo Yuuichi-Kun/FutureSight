@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
   
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use App\Models\Testimoni;
 
 class HomeController extends Controller
 {
@@ -24,7 +25,8 @@ class HomeController extends Controller
      */
     public function welcome(): View
     {
-        return view('users.home');
+        $testimonials = Testimoni::with('alumni.user')->latest('tgl_testimoni')->get();
+        return view('users.home', compact('testimonials'));
     }
   
     /**
@@ -34,7 +36,8 @@ class HomeController extends Controller
      */
     public function index(): View
     {
-        return view('users.home');
+        $testimonials = Testimoni::with('alumni.user')->latest('tgl_testimoni')->get();
+        return view('users.home', compact('testimonials'));
     } 
   
     /**

@@ -60,4 +60,14 @@ class User extends Authenticatable
             get: fn ($value) =>  ["user", "admin"][$value],
         );
     }
+
+    public function alumni()
+    {
+        return $this->hasOne(Alumni::class, 'id_user');
+    }
+
+    public function isAlumni()
+    {
+        return $this->alumni()->exists();
+    }
 }

@@ -89,6 +89,14 @@
             </a>
         </li>
 
+        <!-- Nav Item - Alumni -->
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.alumni.index') }}">
+                <i class="fas fa-fw fa-user-graduate"></i>
+                <span>Alumni</span>
+            </a>
+        </li>
+
         <!-- Divider -->
         <hr class="sidebar-divider">
 
@@ -171,7 +179,9 @@
 <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>
 
 <!-- Page level custom scripts -->
-<script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
+<script src="{{ asset('js/tracer-stats.js') }}"></script>
+
+
 
 <script type="module">
     import UserRegistryChart from '/js/registry-chart.js';

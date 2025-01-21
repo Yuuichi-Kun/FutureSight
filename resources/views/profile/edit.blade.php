@@ -1,62 +1,66 @@
 @extends('layouts.app')
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
 
-    @section('content')
-    <div>
-        <div class="">
-            <div class="p-4 sm:p-8 bg-white shadow rounded sm:rounded-lg" style="margin: 10px;">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-profile-information-form')
-                </div>
-            </div>
-
-            <div class="p-4 sm:p-8 bg-white shadow rounded sm:rounded-lg" style="margin: 10px;">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-password-form')
-                </div>
-            </div>
-
-            <div class="p-4 sm:p-8 bg-white shadow rounded sm:rounded-lg" style="margin: 10px;">
-                <div class="max-w-xl">
-                    @include('profile.partials.delete-user-form')
-                </div>
-            </div>
-
-            <div class="p-4 sm:p-8 bg-white shadow rounded sm:rounded-lg" style="margin: 10px;">
-            <form method="POST" action="{{ route('admin.profile.store') }}" enctype="multipart/form-data">
-                        @csrf
-                        @if (session('success'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('success') }}
-                            </div>
-                        @endif
-                        <div class="row mb-3">
-                            <label for="avatar" class="col-md-4 col-form-label text-md-end">{{ __('Avatar') }}</label>
-                            <div class="col-md-6">
-                                <input id="avatar" type="file" class="form-control @error('avatar') is-invalid @enderror" name="avatar" value="{{ old('avatar') }}" required autocomplete="avatar">
-                                <img src="/avatars/{{ Auth::user()->avatar }}" style="width:80px;margin-top: 10px;">
-                                @error('avatar')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Upload Profile') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div> 
+@section('content')
+<div class="profile-container">
+    <!-- Profile Information Section -->
+    <div class="profile-section">
+        <h3 class="section-header">{{ __('Profile Information') }}</h3>
+        <div class="p-4">
+            @include('profile.partials.update-profile-information-form')
         </div>
     </div>
-    @endsection
-    
 
+    <!-- Avatar Upload Section -->
+    <div class="profile-section">
+        <h3 class="section-header">{{ __('Profile Picture') }}</h3>
+        <div class="p-4">
+            <form method="POST" action="{{ route('admin.profile.store') }}" enctype="multipart/form-data">
+                @csrf
+                @if (session('success'))
+                    <div class="alert alert-success mb-4" role="alert">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                
+                <div class="avatar-upload">
+                    <div class="current-avatar-container">
+                        @if(Auth::user()->avatar)
+                            <img class="current-avatar" src="/avatars/{{ Auth::user()->avatar }}" alt="Current Avatar" style="width: 100px; height: 100px; object-fit: cover;">
+                        @else
+                            <img class="current-avatar" src="{{ asset('/img/default_profile.png') }}" alt="Default Avatar" style="width: 100px; height: 100px; object-fit: cover;">
+                        @endif
+                    </div>
+                    
+                    <div class="upload-controls">
+                        <input id="avatar" type="file" class="form-control @error('avatar') is-invalid @enderror" name="avatar" required>
+                        @error('avatar')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                        <button type="submit" class="btn btn-custom mt-3">
+                            {{ __('Update Profile Picture') }}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Password Update Section -->
+    <div class="profile-section">
+        <h3 class="section-header">{{ __('Update Password') }}</h3>
+        <div class="p-4">
+            @include('profile.partials.update-password-form')
+        </div>
+    </div>
+
+    <!-- Delete Account Section -->
+    <div class="profile-section">
+        <h3 class="section-header">{{ __('Delete Account') }}</h3>
+        <div class="p-4">
+            @include('profile.partials.delete-user-form')
+        </div>
+    </div>
+</div>
+@endsection

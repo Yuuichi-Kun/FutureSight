@@ -46,12 +46,10 @@
                 </div>
 
                 <div class="flex items-center justify-between mt-8 space-y-4">
-                    @if (Route::has('register'))
                         <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" 
                         href="{{ route('register') }}">
                             {{ __('Create an account') }}
                         </a>
-                    @endif
 
                     <x-primary-button class="mt-4 bg-gradient-to-r from-blue-600 to-pink-500 text-white px-6 py-3 rounded-lg hover:opacity-90 transform transition duration-500 hover:scale-105">
                         {{ __('Log in') }}

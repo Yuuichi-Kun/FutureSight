@@ -1,11 +1,14 @@
 <header>
     <nav class="navbar">
         <div class="container nav-wrapper">
-            <a href="{{ route('home') }}" class="logo">Otaku<span>space</span></a>
+            <a href="{{ route('home') }}" class="logo">Future<span>sight.</span></a>
             <div class="menu-wrapper">
                 <ul class="menu">
+                <li class="menu-item">
+                        <a href="{{ route('alumni.register') }}" class="menu-link {{ request()->routeIs('alumni.register') ? 'active' : '' }}">Daftar Alumni</a>
+                    </li>
                     <li class="menu-item">
-                        <a href="{{ route('alumni.register') }}" class="menu-link {{ request()->routeIs('alumni.register') ? 'active' : '' }}">Isi Kuisioner</a>
+                        <a href="{{ route('questionnaire.index') }}" class="menu-link {{ request()->routeIs('questionnaire.index') ? 'active' : '' }}">Isi Kuisioner</a>
                     </li>
                     @auth
                     <li class="nav-item dropdown no-arrow">
@@ -23,14 +26,6 @@
                             <a class="dropdown-item" href="{{ route('profileUser.edit') }}">
                                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Profile
-                            </a>
-                            <a class="dropdown-item" href="#">
-                                <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Settings
-                            </a>
-                            <a class="dropdown-item" href="#">
-                                <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Activity Log
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ route('logout') }}" 
