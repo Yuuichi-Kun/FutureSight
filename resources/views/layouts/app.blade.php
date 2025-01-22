@@ -211,7 +211,7 @@
 
 
         <!-- Main Content -->
-        <main class="" style="padding: 10px;">
+        <main class="" style="padding: 10px; background-color: #D0FFF4;">
             <div class="">
                 @yield('content')
             </div>
