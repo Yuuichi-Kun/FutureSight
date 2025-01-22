@@ -135,6 +135,13 @@ Route::middleware(['auth', 'verified', 'user-access:admin'])->group(function () 
         ->name('admin.forum.warn');
     Route::post('/admin/forum/ban/{user}', [AdminController::class, 'banUser'])
         ->name('admin.forum.ban');
+
+    // Admin Messages
+    Route::controller(MessageController::class)->group(function () {
+        Route::get('/admin/messages', 'adminIndex')->name('admin.messages.index');
+        Route::get('/admin/messages/{user}', 'adminShow')->name('admin.messages.show');
+        Route::post('/admin/messages/{user}', 'adminStore')->name('admin.messages.store');
+    });
 });
 
 // Authentication Routes
