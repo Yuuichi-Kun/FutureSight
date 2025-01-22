@@ -16,32 +16,36 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\ForumController;
+use App\Http\Controllers\MessageController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 // Default route should not require authentication
 Route::get('/', [HomeController::class, 'welcome'])->name('welcome');
 
-// Authentication Routes with Email Verification
-Auth::routes(['verify' => true]);
+// Authentication Routes (without email verification)
+Auth::routes();
 
 // Email Verification Routes
-Route::group(['middleware' => ['auth']], function() {
-    Route::get('/email/verify', function () { 
-        return view('auth.verify');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/email/verify', function () {
+        return view('auth.verify-email');
     })->name('verification.notice');
-
-    Route::post('/email/verification-notification', function (Request $request) {
-        $request->user()->sendEmailVerificationNotification();
-        return back()->with('message', 'Verification link sent!');
-    })->name('verification.send');
 
     Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
         $request->fulfill();
         return redirect('/home');
     })->middleware(['signed'])->name('verification.verify');
+
+    Route::post('/email/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+        return back()->with('message', 'Verification link sent!');
+    })->middleware(['throttle:6,1'])->name('verification.send');
 });
 
-// User Routes
-Route::middleware(['auth', 'verified'])->group(function () {
+// User Routes (remove verified middleware)
+Route::middleware(['auth'])->group(function () {
     // User Dashboard
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
@@ -50,6 +54,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/register', [AlumniRegisterController::class, 'showRegistrationForm'])->name('alumni.register');
         Route::post('/register', [AlumniRegisterController::class, 'register'])->name('alumni.store');
     });
+
+    // Forum Routes
+    Route::get('/forum', [ForumController::class, 'index'])->name('forum.index');
+    Route::get('/forum/{forum}', [ForumController::class, 'show'])->name('forum.show');
+    Route::post('/forum', [ForumController::class, 'store'])->name('forum.store');
+    Route::post('/forum/{forum}/comment', [ForumController::class, 'storeComment'])->name('forum.comment');
+    Route::put('/forum/comment/{comment}', [ForumController::class, 'updateComment'])->name('forum.comment.update');
+    Route::delete('/forum/comment/{comment}', [ForumController::class, 'destroyComment'])->name('forum.comment.destroy');
 
     // Password Reset Routes - Fix the duplicate and conflicting route
     Route::put('/profile/password', [App\Http\Controllers\Auth\UserPasswordController::class, 'update'])
@@ -70,6 +82,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/tracer-kuliah', [QuestionnaireController::class, 'storeTracerKuliah'])->name('questionnaire.store.kuliah');
         Route::post('/testimoni', [QuestionnaireController::class, 'storeTestimoni'])->name('questionnaire.store.testimoni');
     });
+
+    // Message Routes
+    Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
+    Route::get('/messages/{user}', [MessageController::class, 'show'])->name('messages.show');
+    Route::post('/messages/{user}', [MessageController::class, 'store'])->name('messages.store');
+    Route::get('/messages/unread/count', [MessageController::class, 'getUnreadCount'])->name('messages.unread.count');
 });
 
 // Admin Routes
@@ -109,6 +127,14 @@ Route::middleware(['auth', 'verified', 'user-access:admin'])->group(function () 
     Route::get('/api/tracer/bentuk-lembaga-stats', function() {
         return App\Models\TracerKerja::getBentukLembagaStats();
     })->name('api.tracer.bentuk-lembaga-stats');
+
+    // Forum Monitoring Routes
+    Route::get('/admin/forum-monitoring', [AdminController::class, 'forumMonitoring'])
+        ->name('admin.forum.monitoring');
+    Route::post('/admin/forum/warn/{user}', [AdminController::class, 'warnUser'])
+        ->name('admin.forum.warn');
+    Route::post('/admin/forum/ban/{user}', [AdminController::class, 'banUser'])
+        ->name('admin.forum.ban');
 });
 
 // Authentication Routes

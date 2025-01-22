@@ -2,6 +2,7 @@
   
 namespace App\Models;
   
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -15,20 +16,20 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $fillable = [
         'name',
         'email',
         'password',
-        'type',
         'avatar',
+        'type'
     ];
 
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $hidden = [
         'password',
@@ -36,17 +37,14 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * The attributes that should be cast.
      *
-     * @return array
+     * @var array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
 
     /**
      * Interact with the user's first name.
@@ -69,5 +67,28 @@ class User extends Authenticatable
     public function isAlumni()
     {
         return $this->alumni()->exists();
+    }
+
+    /**
+     * Get the forums created by the user.
+     */
+    public function forums()
+    {
+        return $this->hasMany(Forum::class);
+    }
+
+    public function sentMessages()
+    {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
+
+    public function receivedMessages()
+    {
+        return $this->hasMany(Message::class, 'receiver_id');
+    }
+
+    public function unreadMessages()
+    {
+        return $this->receivedMessages()->where('is_read', false);
     }
 }

@@ -9,6 +9,9 @@ use App\Models\Alumni;
 use App\Models\TracerKerja;
 use App\Models\TracerKuliah;
 use App\Models\Testimoni;
+use App\Models\Forum;
+use App\Models\User;
+use App\Models\Message;
 
 class AdminController extends Controller
 {
@@ -77,6 +80,39 @@ class AdminController extends Controller
         ]);
         
         return view('admin.alumni.show', compact('alumni'));
+    }
+
+    public function forumMonitoring()
+    {
+        $forumActivities = Forum::with(['user', 'comments.user'])
+            ->latest()
+            ->paginate(10);
+
+        return view('admin.forum.monitoring', compact('forumActivities'));
+    }
+
+    public function warnUser(User $user)
+    {
+        // Increment warning count
+        $user->update(['warning_count' => $user->warning_count + 1]);
+        
+        // Create warning message
+        Message::create([
+            'sender_id' => auth()->id(),
+            'receiver_id' => $user->id,
+            'content' => "WARNING: You have received a warning from the administrator for inappropriate behavior in the forum. Continued violations may result in account suspension.",
+            'is_system_message' => true
+        ]);
+        
+        return back()->with('success', 'Warning has been sent to the user.');
+    }
+
+    public function banUser(User $user)
+    {
+        // Ban user
+        $user->update(['is_banned' => true]);
+        
+        return back()->with('success', 'User has been banned from the forum.');
     }
 }
 

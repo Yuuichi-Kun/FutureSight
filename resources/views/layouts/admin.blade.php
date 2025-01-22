@@ -97,6 +97,14 @@
             </a>
         </li>
 
+        <!-- Nav Item - Forum Monitoring -->
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.forum.monitoring') }}">
+                <i class="fas fa-fw fa-comments"></i>
+                <span>Forum Monitoring</span>
+            </a>
+        </li>
+
         <!-- Divider -->
         <hr class="sidebar-divider">
 
