@@ -23,7 +23,9 @@ class User extends Authenticatable
         'email',
         'password',
         'avatar',
-        'type'
+        'type',
+        'is_banned',
+        'warning_count'
     ];
 
     /**
@@ -44,6 +46,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'is_banned' => 'boolean',
+        'warning_count' => 'integer',
     ];
 
     /**

@@ -112,7 +112,31 @@ class AdminController extends Controller
         // Ban user
         $user->update(['is_banned' => true]);
         
+        // Create ban notification message
+        Message::create([
+            'sender_id' => auth()->id(),
+            'receiver_id' => $user->id,
+            'content' => "Your account has been banned due to violations of our community guidelines. If you believe this is a mistake, please contact the administrator.",
+            'is_system_message' => true
+        ]);
+        
         return back()->with('success', 'User has been banned from the forum.');
+    }
+
+    public function unbanUser(User $user)
+    {
+        // Unban user
+        $user->update(['is_banned' => false]);
+        
+        // Create unban notification message
+        Message::create([
+            'sender_id' => auth()->id(),
+            'receiver_id' => $user->id,
+            'content' => "Your account has been unbanned. You can now participate in forum discussions again. Please make sure to follow our community guidelines.",
+            'is_system_message' => true
+        ]);
+        
+        return back()->with('success', 'User has been unbanned from the forum.');
     }
 }
 

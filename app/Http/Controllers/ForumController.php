@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Forum;
 use App\Models\ForumComment;
+use App\Models\Message;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ForumController extends Controller
@@ -23,6 +25,13 @@ class ForumController extends Controller
     public function store(Request $request)
     {
         if (auth()->user()->is_banned) {
+            Message::create([
+                'sender_id' => User::where('type', 1)->first()->id, // Admin ID
+                'receiver_id' => auth()->id(),
+                'content' => "Your forum post has been blocked. Your account is currently banned due to violations of our community guidelines. If you believe this is a mistake, please contact the administrator.",
+                'is_system_message' => true
+            ]);
+            
             return back()->with('error', 'Your account has been banned from posting in the forum.');
         }
         
@@ -41,6 +50,13 @@ class ForumController extends Controller
     public function storeComment(Request $request, Forum $forum)
     {
         if (auth()->user()->is_banned) {
+            Message::create([
+                'sender_id' => User::where('type', 1)->first()->id, // Admin ID
+                'receiver_id' => auth()->id(),
+                'content' => "Your comment has been blocked. Your account is currently banned due to violations of our community guidelines. If you believe this is a mistake, please contact the administrator.",
+                'is_system_message' => true
+            ]);
+            
             return back()->with('error', 'Your account has been banned from commenting in the forum.');
         }
         

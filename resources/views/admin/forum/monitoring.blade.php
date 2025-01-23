@@ -56,13 +56,23 @@
                                                 }">
                                             <i class="fas fa-exclamation-triangle"></i> Warn
                                         </button>
-                                        <button type="button" class="btn btn-danger btn-sm"
-                                            onclick="event.preventDefault();
-                                                if(confirm('Ban {{ $forum->user->name }}?')) {
-                                                    document.getElementById('ban-form-{{ $forum->user->id }}').submit();
-                                                }">
-                                            <i class="fas fa-ban"></i> Ban
-                                        </button>
+                                        @if($forum->user->is_banned)
+                                            <button type="button" class="btn btn-success btn-sm"
+                                                onclick="event.preventDefault();
+                                                    if(confirm('Unban {{ $forum->user->name }}?')) {
+                                                        document.getElementById('unban-form-{{ $forum->user->id }}').submit();
+                                                    }">
+                                                <i class="fas fa-unlock"></i> Unban
+                                            </button>
+                                        @else
+                                            <button type="button" class="btn btn-danger btn-sm"
+                                                onclick="event.preventDefault();
+                                                    if(confirm('Ban {{ $forum->user->name }}?')) {
+                                                        document.getElementById('ban-form-{{ $forum->user->id }}').submit();
+                                                    }">
+                                                <i class="fas fa-ban"></i> Ban
+                                            </button>
+                                        @endif
                                     </div>
                                     <form id="warn-form-{{ $forum->user->id }}" 
                                         action="{{ route('admin.forum.warn', $forum->user) }}" 
@@ -71,6 +81,11 @@
                                     </form>
                                     <form id="ban-form-{{ $forum->user->id }}" 
                                         action="{{ route('admin.forum.ban', $forum->user) }}" 
+                                        method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                    <form id="unban-form-{{ $forum->user->id }}" 
+                                        action="{{ route('admin.forum.unban', $forum->user) }}" 
                                         method="POST" style="display: none;">
                                         @csrf
                                     </form>

@@ -135,6 +135,7 @@ Route::middleware(['auth', 'verified', 'user-access:admin'])->group(function () 
         ->name('admin.forum.warn');
     Route::post('/admin/forum/ban/{user}', [AdminController::class, 'banUser'])
         ->name('admin.forum.ban');
+    Route::post('/admin/forum/{user}/unban', [AdminController::class, 'unbanUser'])->name('admin.forum.unban');
 
     // Admin Messages
     Route::controller(MessageController::class)->group(function () {
