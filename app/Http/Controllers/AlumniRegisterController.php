@@ -44,6 +44,9 @@ class AlumniRegisterController extends Controller
         ]);
 
         try {
+            // Create or update user status
+            auth()->user()->update(['status' => 'pending']);
+            
             $alumni = Alumni::create([
                 'id_user' => auth()->id(),
                 'id_tahun_lulus' => $request->id_tahun_lulus,
@@ -66,7 +69,7 @@ class AlumniRegisterController extends Controller
                 'status_login' => '0'
             ]);
 
-            return redirect()->route('home')->with('success', 'Registrasi alumni berhasil!');
+            return redirect()->route('home')->with('success', 'Registrasi alumni berhasil! Mohon tunggu persetujuan dari admin.');
         } catch (\Exception $e) {
             return back()->withInput()
                 ->with('error', 'Terjadi kesalahan saat mendaftar. ' . $e->getMessage());

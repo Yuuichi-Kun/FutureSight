@@ -25,7 +25,8 @@ class User extends Authenticatable
         'avatar',
         'type',
         'is_banned',
-        'warning_count'
+        'warning_count',
+        'status'
     ];
 
     /**
@@ -48,6 +49,7 @@ class User extends Authenticatable
         'password' => 'hashed',
         'is_banned' => 'boolean',
         'warning_count' => 'integer',
+        'status' => 'string',
     ];
 
     /**

@@ -146,6 +146,11 @@ Route::middleware(['auth', 'verified', 'user-access:admin'])->group(function () 
         Route::get('/admin/messages/{user}', 'adminShow')->name('admin.messages.show');
         Route::post('/admin/messages/{user}', 'adminStore')->name('admin.messages.store');
     });
+
+    // Alumni Approval Routes
+    Route::get('/alumni-approvals', [AdminController::class, 'alumniApprovals'])->name('alumni.approvals');
+    Route::post('/alumni-approve/{user}', [AdminController::class, 'approveAlumni'])->name('alumni.approve');
+    Route::post('/alumni-reject/{user}', [AdminController::class, 'rejectAlumni'])->name('alumni.reject');
 });
 
 // Authentication Routes

@@ -105,6 +105,14 @@
             </a>
         </li>
 
+        <!-- Nav Item - Persetujuan Alumni -->
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('alumni.approvals') }}">
+                <i class="fas fa-fw fa-user-check"></i>
+                <span>Persetujuan Alumni</span>
+            </a>
+        </li>
+
         <!-- Divider -->
         <hr class="sidebar-divider">
 

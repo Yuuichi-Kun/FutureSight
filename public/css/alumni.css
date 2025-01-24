@@ -1,0 +1,200 @@
+/* Card Styles */
+.card {
+    transition: all 0.3s ease;
+}
+
+.bg-gradient-primary {
+    background: linear-gradient(45deg, #4e73df 0%, #224abe 100%);
+}
+
+/* Form Control Styles */
+.form-floating > .form-control,
+.form-floating > .form-select {
+    height: calc(3.5rem + 2px);
+    line-height: 1.25;
+    padding: 1rem 0.75rem;
+}
+
+.form-floating > textarea.form-control {
+    height: 100px;
+}
+
+.form-floating > label {
+    padding: 1rem 0.75rem;
+    color: #6c757d;
+}
+
+/* Section Styles */
+.section-card {
+    background: #fff;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border: 1px solid #e3e6f0;
+}
+
+.section-header {
+    border-bottom: 2px solid #e3e6f0;
+    padding-bottom: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Status Group Styles */
+.status-group {
+    background-color: #f8f9fa;
+}
+
+.status-option {
+    flex: 1 1 auto;
+    min-width: 150px;
+}
+
+.status-option label {
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn-check:checked + .btn-outline-primary {
+    background-color: #4e73df;
+    border-color: #4e73df;
+    color: white;
+}
+
+/* Form Validation Styles */
+.invalid-feedback {
+    font-size: 80%;
+    margin-top: 0.25rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .section-card {
+        padding: 1rem;
+    }
+    
+    .status-option {
+        min-width: 120px;
+    }
+    
+    .btn-lg {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+    }
+    
+    .form-floating > .form-control,
+    .form-floating > .form-select {
+        height: calc(3.25rem + 2px);
+        font-size: 0.9rem;
+    }
+    
+    .form-floating > label {
+        font-size: 0.9rem;
+    }
+}
+
+/* Animation */
+.section-card {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.section-card:nth-child(1) { animation-delay: 0.1s; }
+.section-card:nth-child(2) { animation-delay: 0.2s; }
+.section-card:nth-child(3) { animation-delay: 0.3s; }
+.section-card:nth-child(4) { animation-delay: 0.4s; }
+
+/* Form Select Improvements */
+.form-floating > .form-select {
+    padding-right: 2rem; /* Space for arrow icon */
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 100%; /* Ensure select doesn't overflow */
+}
+
+/* Custom select styling */
+select.form-select {
+    background-position: right 0.75rem center; /* Position arrow icon */
+    background-size: 16px 12px; /* Smaller arrow size */
+    word-wrap: normal;
+}
+
+/* Adjust option text for better mobile display */
+select.form-select option {
+    white-space: normal; /* Allow text wrapping in options */
+    padding: 0.5rem;
+    font-size: 0.9rem;
+}
+
+/* Responsive adjustments for form controls */
+@media (max-width: 768px) {
+    .form-floating {
+        margin-bottom: 1rem;
+    }
+
+    .form-floating > .form-control,
+    .form-floating > .form-select {
+        font-size: 14px; /* Smaller font on mobile */
+        height: 3.2rem; /* Slightly reduced height */
+        padding: 0.75rem 0.5rem; /* Adjusted padding */
+    }
+
+    .form-floating > label {
+        padding: 0.75rem 0.5rem;
+        font-size: 14px;
+    }
+
+    /* Ensure select doesn't overflow on very small screens */
+    .form-select {
+        width: 100%;
+        min-width: 0;
+    }
+
+    /* Improve touch target size */
+    select.form-select option {
+        padding: 0.75rem 0.5rem;
+        min-height: 40px; /* Better touch targets */
+    }
+}
+
+/* Fix for iOS select rendering */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+    .form-select {
+        background-color: transparent; /* Fix for iOS select background */
+        -webkit-appearance: none;
+        appearance: none;
+    }
+}
+
+/* Ensure container doesn't overflow */
+.container {
+    max-width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    overflow-x: hidden;
+}
+
+.row {
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+/* Adjust column padding */
+.col-12, .col-md-6, .col-lg-10 {
+    padding-right: 15px;
+    padding-left: 15px;
+}

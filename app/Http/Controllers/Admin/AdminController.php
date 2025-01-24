@@ -138,6 +138,46 @@ class AdminController extends Controller
         
         return back()->with('success', 'User has been unbanned from the forum.');
     }
+
+    public function alumniApprovals()
+    {
+        $pendingAlumni = User::where('status', 'pending')
+            ->whereHas('alumni') // Only get users that have alumni data
+            ->with(['alumni.tahunLulus', 'alumni.konsentrasiKeahlian', 'alumni.statusAlumni'])
+            ->paginate(10);
+        
+        return view('admin.alumni.approvals', compact('pendingAlumni'));
+    }
+
+    public function approveAlumni(User $user)
+    {
+        $user->update(['status' => 'approved']);
+        
+        // Send notification message
+        Message::create([
+            'sender_id' => auth()->id(),
+            'receiver_id' => $user->id,
+            'content' => "Selamat! Pendaftaran alumni Anda telah disetujui. Sekarang Anda dapat mengakses semua fitur alumni.",
+            'is_system_message' => true
+        ]);
+        
+        return back()->with('success', 'Alumni telah disetujui.');
+    }
+
+    public function rejectAlumni(User $user)
+    {
+        $user->update(['status' => 'rejected']);
+        
+        // Send notification message
+        Message::create([
+            'sender_id' => auth()->id(),
+            'receiver_id' => $user->id,
+            'content' => "Maaf, pendaftaran alumni Anda ditolak. Silakan hubungi admin untuk informasi lebih lanjut.",
+            'is_system_message' => true
+        ]);
+        
+        return back()->with('success', 'Alumni telah ditolak.');
+    }
 }
 
 
