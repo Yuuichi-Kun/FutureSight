@@ -49,7 +49,10 @@
                             <h5 class="card-title mb-0">
                                 <a href="{{ route('forum.show', $forum) }}" class="text-decoration-none">{{ $forum->title }}</a>
                             </h5>
-                            <small class="text-muted">Posted by {{ $forum->user->name }} · {{ $forum->created_at->diffForHumans() }}</small>
+                            <small class="text-muted">Posted by 
+                                <a href="{{ route('users.profile', $forum->user) }}" class="text-decoration-none">{{ $forum->user->name }}</a>
+                                · {{ $forum->created_at->diffForHumans() }}
+                            </small>
                         </div>
                     </div>
                     <p class="card-text">{{ Str::limit($forum->content, 200) }}</p>

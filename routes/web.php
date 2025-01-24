@@ -88,6 +88,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/messages/{user}', [MessageController::class, 'show'])->name('messages.show');
     Route::post('/messages/{user}', [MessageController::class, 'store'])->name('messages.store');
     Route::get('/messages/unread/count', [MessageController::class, 'getUnreadCount'])->name('messages.unread.count');
+
+    // Add this new route for viewing other user's profile
+    Route::get('/users/{user}/profile', [UserController::class, 'showProfile'])->name('users.profile');
 });
 
 // Admin Routes

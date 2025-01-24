@@ -18,8 +18,9 @@
                         <div>
                             <h4 class="mb-0 fw-bold">{{ $forum->title }}</h4>
                             <small class="text-muted">
-                                <i class="fas fa-user-circle me-1"></i> {{ $forum->user->name }} · 
-                                <i class="far fa-clock me-1"></i> {{ $forum->created_at->diffForHumans() }}
+                                <i class="fas fa-user-circle me-1"></i>
+                                <a href="{{ route('users.profile', $forum->user) }}" class="text-decoration-none">{{ $forum->user->name }}</a>
+                                · <i class="far fa-clock me-1"></i> {{ $forum->created_at->diffForHumans() }}
                             </small>
                         </div>
                     </div>
@@ -71,7 +72,9 @@
                         <div class="flex-grow-1">
                             <div class="bg-light p-3 rounded-3">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <h6 class="mb-0 fw-bold">{{ $comment->user->name }}</h6>
+                                    <h6 class="mb-0 fw-bold">
+                                        <a href="{{ route('users.profile', $comment->user) }}" class="text-decoration-none">{{ $comment->user->name }}</a>
+                                    </h6>
                                     <div class="d-flex align-items-center">
                                         <small class="text-muted me-3">
                                             <i class="far fa-clock me-1"></i>{{ $comment->created_at->diffForHumans() }}

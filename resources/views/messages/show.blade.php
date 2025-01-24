@@ -9,7 +9,7 @@
                     <div class="d-flex align-items-center">
                         @if($user->avatar)
                             <img src="/avatars/{{ $user->avatar }}" class="rounded-circle me-2" 
-                                style="width:40px; height:40px; object-fit:cover;">
+                                style="width:40px; height:40px; object-fit:cover; margin-right: 10px;">
                         @else
                             <i class="fas fa-user-circle fa-2x me-2"></i>
                         @endif
