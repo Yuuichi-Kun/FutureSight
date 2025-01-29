@@ -10,7 +10,16 @@
     <!-- Forum Activities Table -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Recent Forum Activities</h6>
+            <div class="d-flex justify-content-between align-items-center">
+                <h6 class="m-0 font-weight-bold text-primary">Recent Forum Activities</h6>
+                <form action="{{ route('admin.forum.clear-activities') }}" method="POST" class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn btn-danger btn-sm" 
+                        onclick="return confirm('Are you sure you want to clear all activities? This action cannot be undone.')">
+                        <i class="fas fa-trash"></i> Clear Activities
+                    </button>
+                </form>
+            </div>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -121,13 +130,23 @@
                                                     }">
                                                 <i class="fas fa-exclamation-triangle"></i> Warn
                                             </button>
-                                            <button type="button" class="btn btn-danger btn-sm"
-                                                onclick="event.preventDefault();
-                                                    if(confirm('Ban {{ $comment->user->name }}?')) {
-                                                        document.getElementById('ban-form-{{ $comment->user->id }}').submit();
-                                                    }">
-                                                <i class="fas fa-ban"></i> Ban
-                                            </button>
+                                            @if($comment->user->is_banned)
+                                                <button type="button" class="btn btn-success btn-sm"
+                                                    onclick="event.preventDefault();
+                                                        if(confirm('Unban {{ $comment->user->name }}?')) {
+                                                            document.getElementById('unban-form-{{ $comment->user->id }}').submit();
+                                                        }">
+                                                    <i class="fas fa-unlock"></i> Unban
+                                                </button>
+                                            @else
+                                                <button type="button" class="btn btn-danger btn-sm"
+                                                    onclick="event.preventDefault();
+                                                        if(confirm('Ban {{ $comment->user->name }}?')) {
+                                                            document.getElementById('ban-form-{{ $comment->user->id }}').submit();
+                                                        }">
+                                                    <i class="fas fa-ban"></i> Ban
+                                                </button>
+                                            @endif
                                         </div>
                                         <form id="warn-form-{{ $comment->user->id }}" 
                                             action="{{ route('admin.forum.warn', $comment->user) }}" 
@@ -136,6 +155,11 @@
                                         </form>
                                         <form id="ban-form-{{ $comment->user->id }}" 
                                             action="{{ route('admin.forum.ban', $comment->user) }}" 
+                                            method="POST" style="display: none;">
+                                            @csrf
+                                        </form>
+                                        <form id="unban-form-{{ $comment->user->id }}" 
+                                            action="{{ route('admin.forum.unban', $comment->user) }}" 
                                             method="POST" style="display: none;">
                                             @csrf
                                         </form>

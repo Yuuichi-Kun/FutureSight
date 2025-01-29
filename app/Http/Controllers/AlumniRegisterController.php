@@ -69,10 +69,11 @@ class AlumniRegisterController extends Controller
                 'status_login' => '0'
             ]);
 
-            return redirect()->route('home')->with('success', 'Registrasi alumni berhasil! Mohon tunggu persetujuan dari admin.');
+            // Simple redirect without notification
+            return redirect()->route('home');
+            
         } catch (\Exception $e) {
-            return back()->withInput()
-                ->with('error', 'Terjadi kesalahan saat mendaftar. ' . $e->getMessage());
+            return back()->withInput();
         }
     }
 }

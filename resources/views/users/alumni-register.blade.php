@@ -269,9 +269,12 @@
                             </div>
                         </div>
 
-                        <div class="text-end">
-                            <button type="submit" class="btn btn-primary btn-lg px-4 px-lg-5">
-                                <i class="fas fa-user-plus me-2"></i>{{ __('Register') }}
+                        <div class="text-end d-flex justify-content-end gap-3">
+                            <a href="{{ route('home') }}" class="btn btn-secondary btn-lg px-4 px-lg-5" style="margin-right: 10px;">
+                                <i class="fas fa-times me-2"></i>{{ __('Cancel') }}
+                            </a>
+                            <button type="submit" class="btn btn-primary btn-lg px-4 px-lg-5" id="registerButton">
+                                <i class="fas fa-user-plus me-2"></i><span class="button-text">{{ __('Register') }}</span>
                             </button>
                         </div>
                     </form>
@@ -282,6 +285,55 @@
 </div>
 
 <style>
+.button-spinner {
+    display: none;
+    width: 1rem;
+    height: 1rem;
+    border: 0.2em solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: button-spinner 0.75s linear infinite;
+}
 
+@keyframes button-spinner {
+    to {
+        transform: rotate(360deg);
+    }
+}
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form.needs-validation');
+    const submitButton = document.getElementById('registerButton');
+    const buttonText = submitButton.querySelector('.button-text');
+    const originalText = buttonText.textContent;
+
+    // Create spinner element
+    const spinner = document.createElement('span');
+    spinner.className = 'button-spinner';
+    
+    form.addEventListener('submit', function(e) {
+        // Prevent multiple submissions
+        if (submitButton.disabled) {
+            e.preventDefault();
+            return;
+        }
+
+        // Disable button and show loading state
+        submitButton.disabled = true;
+        buttonText.textContent = 'Processing...';
+        submitButton.insertBefore(spinner, buttonText);
+        spinner.style.display = 'inline-block';
+        
+        // Enable button after 10 seconds (failsafe)
+        setTimeout(function() {
+            submitButton.disabled = false;
+            buttonText.textContent = originalText;
+            spinner.style.display = 'none';
+        }, 10000);
+    });
+});
+</script>
+
 @endsection

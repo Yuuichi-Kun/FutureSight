@@ -113,6 +113,14 @@
             </a>
         </li>
 
+        <!-- Nav Item - Profile Sekolah -->
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.school.index') }}">
+                <i class="fas fa-fw fa-school"></i>
+                <span>Profile Sekolah</span>
+            </a>
+        </li>
+
         <!-- Divider -->
         <hr class="sidebar-divider">
 

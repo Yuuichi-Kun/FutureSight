@@ -20,6 +20,8 @@ use App\Http\Controllers\ForumController;
 use App\Http\Controllers\MessageController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Admin\ForumMonitoringController;
+use App\Http\Controllers\Admin\SchoolController;
 
 // Default route should not require authentication
 Route::get('/', [HomeController::class, 'welcome'])->name('welcome');
@@ -139,6 +141,8 @@ Route::middleware(['auth', 'verified', 'user-access:admin'])->group(function () 
     Route::post('/admin/forum/ban/{user}', [AdminController::class, 'banUser'])
         ->name('admin.forum.ban');
     Route::post('/admin/forum/{user}/unban', [AdminController::class, 'unbanUser'])->name('admin.forum.unban');
+    Route::post('/admin/forum/clear-activities', [ForumMonitoringController::class, 'clearActivities'])
+        ->name('admin.forum.clear-activities');
 
     // Admin Messages
     Route::controller(MessageController::class)->group(function () {
@@ -151,6 +155,13 @@ Route::middleware(['auth', 'verified', 'user-access:admin'])->group(function () 
     Route::get('/alumni-approvals', [AdminController::class, 'alumniApprovals'])->name('alumni.approvals');
     Route::post('/alumni-approve/{user}', [AdminController::class, 'approveAlumni'])->name('alumni.approve');
     Route::post('/alumni-reject/{user}', [AdminController::class, 'rejectAlumni'])->name('alumni.reject');
+
+    // Add inside admin routes group
+    Route::prefix('admin')->group(function () {
+    Route::get('/school', [SchoolController::class, 'index'])->name('admin.school.index');
+    Route::post('/school', [SchoolController::class, 'store'])->name('admin.school.store');
+    Route::put('/school/{school}', [SchoolController::class, 'update'])->name('admin.school.update');
+});
 });
 
 // Authentication Routes
