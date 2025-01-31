@@ -32,6 +32,12 @@
                            Forum
                         </a>
                     </li>
+                    <li class="nav-item px-2">
+                        <a href="{{ route('school.profile') }}" 
+                           class="nav-link {{ request()->routeIs('school.profile') ? 'active font-weight-bold text-primary' : 'text-gray-600' }}">
+                           Profile Sekolah
+                        </a>
+                    </li>
 
                     @auth
                         <!-- Messages Dropdown -->

@@ -6,7 +6,7 @@
     <div class="profile-section">
         <h3 class="section-header">{{ __('Profile Information') }}</h3>
         <div class="p-4">
-            @include('profile.partials.update-profile-information-form')
+            @include('profileUser.partials.update-profile-information-form')
         </div>
     </div>
 
@@ -51,7 +51,7 @@
     <div class="profile-section">
         <h3 class="section-header">{{ __('Update Password') }}</h3>
         <div class="p-4">
-            @include('profile.partials.update-password-form')
+            @include('profileUser.partials.update-password-form')
         </div>
     </div>
 
@@ -59,7 +59,7 @@
     <div class="profile-section">
         <h3 class="section-header">{{ __('Delete Account') }}</h3>
         <div class="p-4">
-            @include('profile.partials.delete-user-form')
+            @include('profileUser.partials.delete-user-form')
         </div>
     </div>
 </div>

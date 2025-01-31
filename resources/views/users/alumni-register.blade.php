@@ -97,7 +97,9 @@
                                 <div class="col-md-6">
                                     <div class="form-floating">
                                         <input type="text" class="form-control @error('nisn') is-invalid @enderror" 
-                                               name="nisn" value="{{ old('nisn') }}" placeholder="NISN">
+                                               name="nisn" value="{{ old('nisn') }}" placeholder="NISN"
+                                               pattern="[0-9]*" inputmode="numeric" maxlength="10"
+                                               oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                                                <br>
                                         @error('nisn')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -108,7 +110,9 @@
                                 <div class="col-md-6">
                                     <div class="form-floating">
                                         <input type="text" class="form-control @error('nik') is-invalid @enderror" 
-                                               name="nik" value="{{ old('nik') }}" placeholder="NIK">
+                                               name="nik" value="{{ old('nik') }}" placeholder="NIK"
+                                               pattern="[0-9]*" inputmode="numeric" maxlength="16"
+                                               oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                                         @error('nik')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -193,7 +197,9 @@
                                 <div class="col-md-6">
                                     <div class="form-floating">
                                         <input type="text" class="form-control @error('no_hp') is-invalid @enderror" 
-                                               name="no_hp" value="{{ old('no_hp') }}" placeholder="No. HP">
+                                               name="no_hp" value="{{ old('no_hp') }}" placeholder="No. HP"
+                                               pattern="[0-9]*" inputmode="numeric" maxlength="15"
+                                               oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                                                <br>
                                         @error('no_hp')
                                             <div class="invalid-feedback">{{ $message }}</div>

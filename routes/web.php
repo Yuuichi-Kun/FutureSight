@@ -22,6 +22,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Admin\ForumMonitoringController;
 use App\Http\Controllers\Admin\SchoolController;
+use App\Http\Controllers\SchoolProfileController;
 
 // Default route should not require authentication
 Route::get('/', [HomeController::class, 'welcome'])->name('welcome');
@@ -93,6 +94,9 @@ Route::middleware(['auth'])->group(function () {
 
     // Add this new route for viewing other user's profile
     Route::get('/users/{user}/profile', [UserController::class, 'showProfile'])->name('users.profile');
+
+    // Add this new route
+    Route::get('/school-profile', [SchoolProfileController::class, 'index'])->name('school.profile');
 });
 
 // Admin Routes
@@ -103,15 +107,15 @@ Route::middleware(['auth', 'verified', 'user-access:admin'])->group(function () 
     // Password Reset Routes
     Route::put('admin/password', [App\Http\Controllers\Auth\AdminPasswordController::class, 'update'])
         ->name('admin.password.update');
-    
+
     // Admin Profile Routes
     Route::prefix('admin/profile')->group(function () {
         Route::get('/', [AdminController::class, 'profileAdmin'])->name('profile.edit');
-        Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
-        Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
+        Route::patch('/', [ProfileController::class, 'update'])->name('admin.profile.update');
+        Route::delete('/', [ProfileController::class, 'destroy'])->name('admin.profile.destroy');
         Route::post('/', [ProfileController::class, 'store'])->name('admin.profile.store');
     });
-    
+
     // Bidang Keahlian Routes
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('bidang-keahlian', BidangKeahlianController::class);
@@ -119,7 +123,7 @@ Route::middleware(['auth', 'verified', 'user-access:admin'])->group(function () 
         Route::resource('konsentrasi-keahlian', KonsentrasiKeahlianController::class);
         Route::resource('tahun-lulus', TahunLulusController::class);
     });
-    
+
     // User Registry API Route
     Route::get('/api/user-activity', [UserRegistryController::class, 'getRegistryData']);
 
@@ -129,7 +133,7 @@ Route::middleware(['auth', 'verified', 'user-access:admin'])->group(function () 
         Route::get('/{alumni}', [AdminController::class, 'alumniShow'])->name('show');
     });
 
-    Route::get('/api/tracer/bentuk-lembaga-stats', function() {
+    Route::get('/api/tracer/bentuk-lembaga-stats', function () {
         return App\Models\TracerKerja::getBentukLembagaStats();
     })->name('api.tracer.bentuk-lembaga-stats');
 
@@ -158,10 +162,10 @@ Route::middleware(['auth', 'verified', 'user-access:admin'])->group(function () 
 
     // Add inside admin routes group
     Route::prefix('admin')->group(function () {
-    Route::get('/school', [SchoolController::class, 'index'])->name('admin.school.index');
-    Route::post('/school', [SchoolController::class, 'store'])->name('admin.school.store');
-    Route::put('/school/{school}', [SchoolController::class, 'update'])->name('admin.school.update');
-});
+        Route::get('/school', [SchoolController::class, 'index'])->name('admin.school.index');
+        Route::post('/school', [SchoolController::class, 'store'])->name('admin.school.store');
+        Route::put('/school/{school}', [SchoolController::class, 'update'])->name('admin.school.update');
+    });
 });
 
 // Authentication Routes
@@ -169,7 +173,7 @@ Route::middleware('guest')->group(function () {
     Route::get('login', [LoginController::class, 'showLoginForm'])
         ->name('login');
     Route::post('login', [LoginController::class, 'login']);
-    
+
     // Register Routes
     Route::get('register', [RegisteredUserController::class, 'create'])
         ->name('register');
