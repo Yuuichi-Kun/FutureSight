@@ -17,7 +17,10 @@
                 <div class="message-item p-3 border-bottom {{ !$message->is_read ? 'bg-light' : '' }}">
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <div class="d-flex align-items-center">
-                            @if($message->sender->avatar)
+                            @if($message->is_system_message)
+                                <img src="{{ asset('/img/system-icon.png') }}" class="rounded-circle mr-2"
+                                    style="width:40px; height:40px; object-fit:cover;">
+                            @elseif($message->sender && $message->sender->avatar)
                                 <img src="/avatars/{{ $message->sender->avatar }}" class="rounded-circle mr-2" 
                                     style="width:40px; height:40px; object-fit:cover;">
                             @else
@@ -27,20 +30,23 @@
                             <div>
                                 <h6 class="mb-0">
                                     @if($message->is_system_message)
-                                        <span class="badge badge-danger mr-1">System</span>
-                                    @endif
-                                    {{ $message->sender->name }}
-                                    @if($message->sender->alumni)
-                                        <small class="text-muted">(Alumni - {{ $message->sender->alumni->tahunLulus->tahun_lulus }})</small>
+                                        <span class="badge badge-danger mr-1">System Message</span>
+                                    @else
+                                        {{ $message->sender->name }}
+                                        @if($message->sender->alumni)
+                                            <small class="text-muted">(Alumni - {{ $message->sender->alumni->tahunLulus->tahun_lulus }})</small>
+                                        @endif
                                     @endif
                                 </h6>
                                 <small class="text-muted">{{ $message->created_at->format('M d, Y H:i') }}</small>
                             </div>
                         </div>
-                        <a href="{{ route('admin.messages.show', $message->sender) }}" 
-                           class="btn btn-sm btn-primary">
-                            <i class="fas fa-reply fa-fw"></i> Reply
-                        </a>
+                        @if(!$message->is_system_message && $message->sender)
+                            <a href="{{ route('admin.messages.show', $message->sender) }}" 
+                               class="btn btn-sm btn-primary">
+                                <i class="fas fa-reply fa-fw"></i> Reply
+                            </a>
+                        @endif
                     </div>
                     <p class="mb-0 {{ $message->is_system_message ? 'text-danger' : '' }}">
                         {{ $message->content }}

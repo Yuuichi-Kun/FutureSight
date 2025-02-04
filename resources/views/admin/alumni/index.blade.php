@@ -26,7 +26,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($alumni as $a)
+                        @forelse($alumni as $a)
                         <tr>
                             <td>{{ $a->nama_depan }} {{ $a->nama_belakang }}</td>
                             <td>{{ $a->tahunLulus->tahun_lulus }}</td>
@@ -40,7 +40,11 @@
                                 </a>
                             </td>
                         </tr>
-                        @endforeach
+                        @empty
+                        <tr>
+                            <td colspan="6" class="text-center">Belum ada data alumni</td>
+                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>

@@ -23,6 +23,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Admin\ForumMonitoringController;
 use App\Http\Controllers\Admin\SchoolController;
 use App\Http\Controllers\SchoolProfileController;
+use App\Http\Controllers\ContactController;
 
 // Default route should not require authentication
 Route::get('/', [HomeController::class, 'welcome'])->name('welcome');
@@ -97,6 +98,8 @@ Route::middleware(['auth'])->group(function () {
 
     // Add this new route
     Route::get('/school-profile', [SchoolProfileController::class, 'index'])->name('school.profile');
+
+    Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 });
 
 // Admin Routes
@@ -179,3 +182,4 @@ Route::middleware('guest')->group(function () {
         ->name('register');
     Route::post('register', [RegisteredUserController::class, 'store']);
 });
+

@@ -42,10 +42,11 @@
         <div class="col-5-footer">
             <h3>Hubungi Kami</h3>
             <p>Ada pertanyaan atau masukan?</p>
-            <div class="form-input">
-                <input type="text" placeholder="Masukkan email Anda">
-                <a href="#" class="btn-footer">Kirim</a>
-            </div>
+            <form action="{{ route('contact.store') }}" method="POST" class="form-input">
+                @csrf
+                <input type="email" name="email" placeholder="Masukkan email Anda" required>
+                <button type="submit" class="btn-footer">Kirim</button>
+            </form>
         </div>
         </div>
 </footer>

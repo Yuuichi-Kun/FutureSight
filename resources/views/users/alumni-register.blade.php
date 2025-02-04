@@ -61,18 +61,17 @@
                                 </div>
 
                                 <div class="col-12">
-                                    <label class="form-label">Status Alumni</label>
+                                    <label class="form-label">Status Alumni (Pilih satu atau lebih)</label>
                                     <div class="status-group p-3 border rounded bg-light">
                                         <div class="d-flex flex-wrap gap-2">
                                             @foreach($statusAlumni as $status)
                                                 <div class="status-option flex-grow-1">
-                                                    <input type="radio" 
+                                                    <input type="checkbox" 
                                                         class="btn-check" 
-                                                        name="id_status_alumni" 
+                                                        name="id_status_alumni[]" 
                                                         id="status_{{ $status->id_status_alumni }}" 
                                                         value="{{ $status->id_status_alumni }}"
-                                                        {{ old('id_status_alumni') == $status->id_status_alumni ? 'checked' : '' }}
-                                                        required>
+                                                        {{ in_array($status->id_status_alumni, old('id_status_alumni', [])) ? 'checked' : '' }}>
                                                     <label class="btn btn-outline-primary w-100" for="status_{{ $status->id_status_alumni }}">
                                                         {{ $status->status_alumni }}
                                                     </label>
@@ -197,10 +196,10 @@
                                 <div class="col-md-6">
                                     <div class="form-floating">
                                         <input type="text" class="form-control @error('no_hp') is-invalid @enderror" 
-                                               name="no_hp" value="{{ old('no_hp') }}" placeholder="No. HP"
+                                               name="no_hp" value="{{ old('no_hp') }}" id="no_hp" placeholder="No. HP"
                                                pattern="[0-9]*" inputmode="numeric" maxlength="15"
                                                oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                                               <br>
+                                        <label for="no_hp">No. HP</label>
                                         @error('no_hp')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -210,7 +209,8 @@
                                 <div class="col-md-6">
                                     <div class="form-floating">
                                         <input type="email" class="form-control @error('email') is-invalid @enderror" 
-                                               name="email" value="{{ old('email') }}" required placeholder="Email">
+                                               name="email" value="{{ old('email') }}" id="email" required placeholder="Email">
+                                        <label for="email">Email</label>
                                         @error('email')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -220,7 +220,8 @@
                                 <div class="col-md-4">
                                     <div class="form-floating">
                                         <input type="text" class="form-control @error('akun_fb') is-invalid @enderror" 
-                                               name="akun_fb" value="{{ old('akun_fb') }}" placeholder="Facebook">
+                                               name="akun_fb" value="{{ old('akun_fb') }}" id="akun_fb" placeholder="Facebook">
+                                        <label for="akun_fb">Facebook</label>
                                         @error('akun_fb')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -230,7 +231,8 @@
                                 <div class="col-md-4">
                                     <div class="form-floating">
                                         <input type="text" class="form-control @error('akun_ig') is-invalid @enderror" 
-                                               name="akun_ig" value="{{ old('akun_ig') }}" placeholder="Instagram">
+                                               name="akun_ig" value="{{ old('akun_ig') }}" id="akun_ig" placeholder="Instagram">
+                                        <label for="akun_ig">Instagram</label>
                                         @error('akun_ig')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -240,7 +242,8 @@
                                 <div class="col-md-4">
                                     <div class="form-floating">
                                         <input type="text" class="form-control @error('akun_tiktok') is-invalid @enderror" 
-                                               name="akun_tiktok" value="{{ old('akun_tiktok') }}" placeholder="TikTok">
+                                               name="akun_tiktok" value="{{ old('akun_tiktok') }}" id="akun_tiktok" placeholder="TikTok">
+                                        <label for="akun_tiktok">TikTok</label>
                                         @error('akun_tiktok')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror

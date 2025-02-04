@@ -35,7 +35,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($forumActivities as $forum)
+                        @forelse($forumActivities as $forum)
                             <!-- Forum Posts -->
                             <tr>
                                 <td>
@@ -101,7 +101,7 @@
                                 </td>
                             </tr>
                             <!-- Comments for this forum post -->
-                            @foreach($forum->comments as $comment)
+                            @forelse($forum->comments as $comment)
                                 <tr class="bg-light">
                                     <td>
                                         <div class="d-flex align-items-center">
@@ -165,8 +165,14 @@
                                         </form>
                                     </td>
                                 </tr>
-                            @endforeach
-                        @endforeach
+                            @empty
+                                <!-- No comments -->
+                            @endforelse
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-center">Belum ada aktifitas</td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
