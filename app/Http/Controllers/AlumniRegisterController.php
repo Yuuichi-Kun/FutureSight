@@ -26,7 +26,8 @@ class AlumniRegisterController extends Controller
         $request->validate([
             'id_tahun_lulus' => 'required|exists:tbl_tahun_lulus,id_tahun_lulus',
             'id_konsentrasi_keahlian' => 'required|exists:tbl_konsentrasi_keahlian,id_konsentrasi_keahlian',
-            'id_status_alumni' => 'required|exists:tbl_status_alumni,id_status_alumni',
+            'id_status_alumni' => 'required|array',
+            'id_status_alumni.*' => 'exists:tbl_status_alumni,id_status_alumni',
             'nisn' => 'nullable|string|max:20',
             'nik' => 'nullable|string|max:20',
             'nama_depan' => 'required|string|max:50',
@@ -47,11 +48,14 @@ class AlumniRegisterController extends Controller
             // Create or update user status
             auth()->user()->update(['status' => 'pending']);
             
+            // Ambil status alumni pertama untuk disimpan di tabel utama
+            $primaryStatus = $request->id_status_alumni[0];
+            
             $alumni = Alumni::create([
                 'id_user' => auth()->id(),
                 'id_tahun_lulus' => $request->id_tahun_lulus,
                 'id_konsentrasi_keahlian' => $request->id_konsentrasi_keahlian,
-                'id_status_alumni' => $request->id_status_alumni,
+                'id_status_alumni' => $primaryStatus, // Simpan status utama
                 'nisn' => $request->nisn,
                 'nik' => $request->nik,
                 'nama_depan' => $request->nama_depan,
@@ -69,11 +73,15 @@ class AlumniRegisterController extends Controller
                 'status_login' => '0'
             ]);
 
-            // Simple redirect without notification
-            return redirect()->route('home');
+            // Simpan status alumni tambahan jika ada
+            if (count($request->id_status_alumni) > 1) {
+                $alumni->additionalStatus()->attach(array_slice($request->id_status_alumni, 1));
+            }
+
+            return redirect()->route('home')->with('success', 'Registrasi berhasil! Menunggu persetujuan admin.');
             
         } catch (\Exception $e) {
-            return back()->withInput();
+            return back()->withInput()->withErrors(['error' => 'Terjadi kesalahan saat mendaftar. Silakan coba lagi.']);
         }
     }
 }

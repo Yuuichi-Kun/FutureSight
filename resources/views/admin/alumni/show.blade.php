@@ -37,7 +37,14 @@
                         <dd class="col-sm-8">{{ $alumni->konsentrasiKeahlian->konsentrasi_keahlian }}</dd>
                         
                         <dt class="col-sm-4">Status</dt>
-                        <dd class="col-sm-8">{{ $alumni->statusAlumni->status_alumni }}</dd>
+                        <dd class="col-sm-8">
+                        <span class="badge badge-info">{{ $alumni->statusAlumni->status_alumni }}</span>
+                            @if($alumni->additionalStatus->count() > 0)
+                                @foreach($alumni->additionalStatus as $status)
+                                    <br><span class="badge badge-info">{{ $status->status_alumni }}</span>
+                                @endforeach
+                            @endif
+                        </dd>
                         
                         <dt class="col-sm-4">Email</dt>
                         <dd class="col-sm-8">{{ $alumni->email }}</dd>

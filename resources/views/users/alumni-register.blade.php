@@ -27,6 +27,7 @@
                             </div>
                             <div class="row g-3">
                                 <div class="col-12 col-md-6">
+                                    <label>Tahun Lulus</label>
                                     <div class="form-floating mb-3">
                                         <select name="id_tahun_lulus" class="form-select @error('id_tahun_lulus') is-invalid @enderror">
                                             <option value="">Pilih Tahun Lulus</option>
@@ -36,7 +37,6 @@
                                                 </option>
                                             @endforeach
                                         </select>
-                                        <label>Tahun Lulus</label>
                                         @error('id_tahun_lulus')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -44,6 +44,7 @@
                                 </div>
                                 
                                 <div class="col-12 col-md-6">
+                                    <label>Konsentrasi Keahlian</label>
                                     <div class="form-floating mb-3">
                                         <select name="id_konsentrasi_keahlian" class="form-select @error('id_konsentrasi_keahlian') is-invalid @enderror">
                                             <option value="">Pilih Konsentrasi Keahlian</option>
@@ -53,7 +54,6 @@
                                                 </option>
                                             @endforeach
                                         </select>
-                                        <label>Konsentrasi Keahlian</label>
                                         @error('id_konsentrasi_keahlian')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -92,30 +92,31 @@
                                 <i class="fas fa-user text-primary me-2"></i>
                                 <h5 class="mb-0 text-primary">Data Pribadi</h5>
                             </div>
-                            <div class="row g-3">
+                            <div class="row g-4">
                                 <div class="col-md-6">
-                                    <div class="form-floating">
+                                    <div class="form-floating" style="margin-bottom: 10px;">
+                                        <label>NISN</label>
                                         <input type="text" class="form-control @error('nisn') is-invalid @enderror" 
                                                name="nisn" value="{{ old('nisn') }}" placeholder="NISN"
                                                pattern="[0-9]*" inputmode="numeric" maxlength="10"
                                                oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                                               <br>
-                                        @error('nisn')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
                                     </div>
+                                    @error('nisn')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="col-md-6">
-                                    <div class="form-floating">
+                                    <div class="form-floating" style="margin-bottom: 10px;">
+                                        <label>NIK</label>
                                         <input type="text" class="form-control @error('nik') is-invalid @enderror" 
                                                name="nik" value="{{ old('nik') }}" placeholder="NIK"
                                                pattern="[0-9]*" inputmode="numeric" maxlength="16"
                                                oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                                        @error('nik')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
                                     </div>
+                                    @error('nik')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="col-md-6">
@@ -129,7 +130,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-6" style="margin-bottom: 10px;">
                                     <div class="form-floating">
                                         <input type="text" class="form-control @error('nama_belakang') is-invalid @enderror" 
                                                name="nama_belakang" value="{{ old('nama_belakang') }}" required placeholder="Nama Belakang">
@@ -139,7 +140,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-6" style="margin-bottom: 10px;">
                                     <div class="form-floating">
                                         <select name="jenis_kelamin" class="form-select @error('jenis_kelamin') is-invalid @enderror" required>
                                             <option value="">Pilih Jenis Kelamin</option>
@@ -165,6 +166,7 @@
 
                                 <div class="col-12">
                                     <div class="form-floating">
+                                        <label>Tanggal Lahir</label>
                                         <input type="date" class="form-control @error('tgl_lahir') is-invalid @enderror" 
                                                name="tgl_lahir" value="{{ old('tgl_lahir') }}" required>
                                                <br>
@@ -194,12 +196,12 @@
                             </div>
                             <div class="row g-3">
                                 <div class="col-md-6">
-                                    <div class="form-floating">
+                                    <div class="form-floating" style="margin-bottom: 10px;">
+                                    <label for="no_hp">No. HP</label>
                                         <input type="text" class="form-control @error('no_hp') is-invalid @enderror" 
                                                name="no_hp" value="{{ old('no_hp') }}" id="no_hp" placeholder="No. HP"
                                                pattern="[0-9]*" inputmode="numeric" maxlength="15"
                                                oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                                        <label for="no_hp">No. HP</label>
                                         @error('no_hp')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -208,45 +210,49 @@
 
                                 <div class="col-md-6">
                                     <div class="form-floating">
+                                    <label for="email">Email</label>
                                         <input type="email" class="form-control @error('email') is-invalid @enderror" 
                                                name="email" value="{{ old('email') }}" id="email" required placeholder="Email">
-                                        <label for="email">Email</label>
                                         @error('email')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                 </div>
 
-                                <div class="col-md-4">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control @error('akun_fb') is-invalid @enderror" 
-                                               name="akun_fb" value="{{ old('akun_fb') }}" id="akun_fb" placeholder="Facebook">
-                                        <label for="akun_fb">Facebook</label>
-                                        @error('akun_fb')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
+                                <div class="col-12">
+                                    <div class="row g-3">
+                                        <div class="col-md-4">
+                                            <div class="form-floating">
+                                            <label for="akun_fb">Facebook</label>
+                                                <input type="text" class="form-control @error('akun_fb') is-invalid @enderror" 
+                                                       name="akun_fb" value="{{ old('akun_fb') }}" id="akun_fb" placeholder="Facebook">
+                                                @error('akun_fb')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
 
-                                <div class="col-md-4">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control @error('akun_ig') is-invalid @enderror" 
-                                               name="akun_ig" value="{{ old('akun_ig') }}" id="akun_ig" placeholder="Instagram">
-                                        <label for="akun_ig">Instagram</label>
-                                        @error('akun_ig')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
+                                        <div class="col-md-4">
+                                            <div class="form-floating">
+                                            <label for="akun_ig">Instagram</label>
+                                                <input type="text" class="form-control @error('akun_ig') is-invalid @enderror" 
+                                                       name="akun_ig" value="{{ old('akun_ig') }}" id="akun_ig" placeholder="Instagram">
+                                                @error('akun_ig')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
 
-                                <div class="col-md-4">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control @error('akun_tiktok') is-invalid @enderror" 
-                                               name="akun_tiktok" value="{{ old('akun_tiktok') }}" id="akun_tiktok" placeholder="TikTok">
-                                        <label for="akun_tiktok">TikTok</label>
-                                        @error('akun_tiktok')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
+                                        <div class="col-md-4">
+                                            <div class="form-floating">
+                                            <label for="akun_tiktok">TikTok</label>
+                                                <input type="text" class="form-control @error('akun_tiktok') is-invalid @enderror" 
+                                                       name="akun_tiktok" value="{{ old('akun_tiktok') }}" id="akun_tiktok" placeholder="TikTok">
+                                                @error('akun_tiktok')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -259,7 +265,7 @@
                                 <h5 class="mb-0 text-primary">Password</h5>
                             </div>
                             <div class="row g-3">
-                                <div class="col-md-6">
+                                <div class="col-md-6" style="margin-bottom: 10px;">
                                     <div class="form-floating">
                                         <input type="password" class="form-control @error('password') is-invalid @enderror" 
                                                name="password" required placeholder="Password">
@@ -307,6 +313,28 @@
 @keyframes button-spinner {
     to {
         transform: rotate(360deg);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .form-floating {
+        font-size: 14px;
+    }
+    
+    .form-floating .form-select,
+    .form-floating .form-control {
+        height: 45px;
+        padding-top: 1rem;
+        padding-bottom: 0.5rem;
+    }
+    
+    .form-floating label {
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .form-floating > .form-select {
+        padding-top: 1.25rem;
+        padding-bottom: 0.25rem;
     }
 }
 </style>

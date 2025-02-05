@@ -30,7 +30,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($bidangKeahlian as $index => $item)
+                            @forelse($bidangKeahlian as $index => $item)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $item->kode_bidang_keahlian }}</td>
@@ -49,7 +49,11 @@
                                     </form>
                                 </td>
                             </tr>
-                            @endforeach
+                            @empty
+                            <tr>
+                                <td colspan="6" class="text-center">Belum ada data</td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

@@ -31,7 +31,14 @@
                             <td>{{ $a->nama_depan }} {{ $a->nama_belakang }}</td>
                             <td>{{ $a->tahunLulus->tahun_lulus }}</td>
                             <td>{{ $a->konsentrasiKeahlian->konsentrasi_keahlian }}</td>
-                            <td>{{ $a->statusAlumni->status_alumni }}</td>
+                            <td>
+                                <span class="badge badge-info">{{ $a->statusAlumni->status_alumni }}</span>
+                                @if($a->additionalStatus->count() > 0)
+                                    @foreach($a->additionalStatus as $status)
+                                        <br><span class="badge badge-info">{{ $status->status_alumni }}</span>
+                                    @endforeach
+                                @endif
+                            </td>
                             <td>{{ $a->email }}</td>
                             <td>
                                 <a href="{{ route('admin.alumni.show', $a) }}" 

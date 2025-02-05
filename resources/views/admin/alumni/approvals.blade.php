@@ -55,7 +55,12 @@
                                 </td>
                                 <td>
                                     @if($user->alumni && $user->alumni->statusAlumni)
-                                        {{ $user->alumni->statusAlumni->status_alumni }}
+                                        <span class="badge badge-info">{{ $user->alumni->statusAlumni->status_alumni }}</span>
+                                        @if($user->alumni->additionalStatus->count() > 0)
+                                            @foreach($user->alumni->additionalStatus as $status)
+                                                <br><span class="badge badge-info">{{ $status->status_alumni }}</span>
+                                            @endforeach
+                                        @endif
                                     @else
                                         -
                                     @endif

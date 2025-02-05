@@ -30,7 +30,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($tahunLulus as $index => $item)
+                            @forelse($tahunLulus as $index => $item)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $item->tahun_lulus }}</td>
@@ -49,7 +49,11 @@
                                     </form>
                                 </td>
                             </tr>
-                            @endforeach
+                            @empty
+                            <tr>
+                                <td colspan="6" class="text-center">Belum ada tahun lulus</td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

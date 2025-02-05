@@ -72,4 +72,9 @@ class Alumni extends Authenticatable
     {
         return $this->hasOne(Testimoni::class, 'id_alumni', 'id_alumni');
     }
+
+    public function additionalStatus()
+    {
+        return $this->belongsToMany(StatusAlumni::class, 'alumni_status', 'id_alumni', 'id_status_alumni');
+    }
 }

@@ -31,7 +31,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($programKeahlian as $index => $item)
+                            @forelse($programKeahlian as $index => $item)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $item->bidangKeahlian->bidang_keahlian }}</td>
@@ -51,7 +51,11 @@
                                     </form>
                                 </td>
                             </tr>
-                            @endforeach
+                            @empty
+                            <tr>
+                                <td colspan="6" class="text-center">Belum ada data</td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

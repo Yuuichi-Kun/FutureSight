@@ -93,7 +93,7 @@
         <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.alumni.index') }}">
                 <i class="fas fa-fw fa-user-graduate"></i>
-                <span>Alumni</span>
+                <span>Data Alumni</span>
             </a>
         </li>
 
