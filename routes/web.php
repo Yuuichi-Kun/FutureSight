@@ -80,7 +80,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Questionnaire Routes
-    Route::prefix('questionnaire')->group(function () {
+    Route::middleware(['auth', 'approved.alumni'])->prefix('questionnaire')->group(function () {
         Route::get('/', [QuestionnaireController::class, 'index'])->name('questionnaire.index');
         Route::post('/tracer-kerja', [QuestionnaireController::class, 'storeTracerKerja'])->name('questionnaire.store.kerja');
         Route::post('/tracer-kuliah', [QuestionnaireController::class, 'storeTracerKuliah'])->name('questionnaire.store.kuliah');

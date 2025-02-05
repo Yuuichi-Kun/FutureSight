@@ -13,6 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'user-access' => \App\Http\Middleware\UserAccess::class,
+            'approved.alumni' => \App\Http\Middleware\ApprovedAlumni::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

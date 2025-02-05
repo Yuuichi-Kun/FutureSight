@@ -22,6 +22,12 @@ class QuestionnaireController extends Controller
                 ->with('error', 'Anda harus melengkapi data alumni terlebih dahulu.');
         }
 
+        // Cek status approval user
+        if (auth()->user()->status !== 'approved') {
+            return redirect()->route('home')
+                ->with('error', 'Akun Anda masih menunggu persetujuan admin. Silakan tunggu hingga akun Anda disetujui.');
+        }
+
         // Ambil data tracer yang sudah ada (jika ada)
         $tracerKerja = TracerKerja::where('id_alumni', auth()->user()->alumni->id_alumni)->first();
         $tracerKuliah = TracerKuliah::where('id_alumni', auth()->user()->alumni->id_alumni)->first();
@@ -35,10 +41,10 @@ class QuestionnaireController extends Controller
      */
     public function storeTracerKerja(Request $request)
     {
-        // Validasi keberadaan data alumni
-        if (!auth()->user()->alumni) {
-            return redirect()->route('alumni.register')
-                ->with('error', 'Anda harus melengkapi data alumni terlebih dahulu.');
+        // Validasi keberadaan data alumni dan status approval
+        if (!auth()->user()->alumni || auth()->user()->status !== 'approved') {
+            return redirect()->route('home')
+                ->with('error', 'Anda tidak memiliki akses ke fitur ini.');
         }
 
         // Validasi input
@@ -85,10 +91,10 @@ class QuestionnaireController extends Controller
      */
     public function storeTracerKuliah(Request $request)
     {
-        // Validasi keberadaan data alumni
-        if (!auth()->user()->alumni) {
-            return redirect()->route('alumni.register')
-                ->with('error', 'Anda harus melengkapi data alumni terlebih dahulu.');
+        // Validasi keberadaan data alumni dan status approval
+        if (!auth()->user()->alumni || auth()->user()->status !== 'approved') {
+            return redirect()->route('home')
+                ->with('error', 'Anda tidak memiliki akses ke fitur ini.');
         }
 
         // Validasi input
@@ -131,10 +137,10 @@ class QuestionnaireController extends Controller
      */
     public function storeTestimoni(Request $request)
     {
-        // Validasi keberadaan data alumni
-        if (!auth()->user()->alumni) {
-            return redirect()->route('alumni.register')
-                ->with('error', 'Anda harus melengkapi data alumni terlebih dahulu.');
+        // Validasi keberadaan data alumni dan status approval
+        if (!auth()->user()->alumni || auth()->user()->status !== 'approved') {
+            return redirect()->route('home')
+                ->with('error', 'Anda tidak memiliki akses ke fitur ini.');
         }
 
         // Validasi input
