@@ -3,25 +3,27 @@
 @section('title', 'Home - Otakuspace')
 
 @section('content')
+
 <section class="home" id="home">
     <div class="container home-wrapper">
         <div class="content-left" data-aos="fade-right">
             <h1 class="heading">Bangun Jaringan Alumni dan Kembangkan Karir <span>Bersama Kami</span></h1>
-            <p class="subheading">Kami membantu alumni untuk tetap terhubung dengan almamater, mengembangkan jejaring profesional, 
+            <p class="subheading">Kami membantu alumni untuk tetap terhubung dengan almamater, mengembangkan jejaring
+                profesional,
                 dan membuka peluang karir melalui tracer study yang komprehensif.</p>
-                
-                
-                
-            </div>
-            <div class="content-right" data-aos="fade-left">
-                <div class="img-wrapper">
-                    <img src="{{ asset('img/Animek.png') }}" alt="Anime character">
-                </div>
+
+
+
+        </div>
+        <div class="content-right" data-aos="fade-left">
+            <div class="img-wrapper">
+                <img src="{{ asset('img/Animek.png') }}" alt="Anime character">
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section class="statistic">
+<section class="statistic">
     <div class="container statistic-wrapper">
         <div class="content-img" data-aos="fade-right" data-aos-offset="500" data-aos-duration="500">
             <img src="{{ asset('img/Arona-stats.png') }}" alt="Statistics Image">
@@ -36,7 +38,7 @@
                     <h1>85%</h1>
                     <p>Tingkat Keterserapan Kerja</p>
                 </div>
-                
+
                 <div class="box-angka">
                     <h1>70%</h1>
                     <p>Bekerja Sesuai Bidang</p>
@@ -46,7 +48,7 @@
                     <h1>25%</h1>
                     <p>Melanjutkan Studi</p>
                 </div>
-                
+
                 <div class="box-angka">
                     <h1>20%</h1>
                     <p>Menjadi Wirausaha</p>
@@ -56,7 +58,7 @@
     </div>
 </section>
 
-    <section class="testi">
+<section class="testi">
     <div class="container testimoni-wrapper">
         <div class="col-heading" data-aos="fade-down-right" data-aos-duration="3000">
             <p class="label-testimoni">Apa yang mereka katakan ?</p>
@@ -67,31 +69,34 @@
             <div class="swiper mySwiperTestimoni">
                 <div class="swiper-wrapper">
                     @forelse($testimonials as $testimoni)
-                        <div class="swiper-slide card-testimoni">
-                            @if($testimoni->alumni->user->avatar)
-                                <img class="rounded-circle me-2" src="/avatars/{{ $testimoni->alumni->user->avatar }}" style="width:40px; height:40px; object-fit:cover;">
-                            @else
-                                <img class="rounded-circle me-2" src="{{ asset('/img/default_profile.png') }}" style="width:40px; height:40px; object-fit:cover;">
-                            @endif
-                            <div class="text-testimoni">
-                                <i class='bx bxs-quote-left'></i>
-                                <p>{{ $testimoni->testimoni }}</p>
-                                <i class='bx bxs-quote-right'></i>
-                            </div>
-                            <p class="username">Oleh {{ $testimoni->alumni->user->name }}</p>
-                            <p class="status">Alumni</p>
+                    <div class="swiper-slide card-testimoni">
+                        @if($testimoni->alumni->user->avatar)
+                        <img class="rounded-circle me-2" src="/avatars/{{ $testimoni->alumni->user->avatar }}"
+                            style="width:40px; height:40px; object-fit:cover;">
+                        @else
+                        <img class="rounded-circle me-2" src="{{ asset('/img/default_profile.png') }}"
+                            style="width:40px; height:40px; object-fit:cover;">
+                        @endif
+                        <div class="text-testimoni">
+                            <i class='bx bxs-quote-left'></i>
+                            <p>{{ $testimoni->testimoni }}</p>
+                            <i class='bx bxs-quote-right'></i>
                         </div>
+                        <p class="username">Oleh {{ $testimoni->alumni->user->name }}</p>
+                        <p class="status">Alumni</p>
+                    </div>
                     @empty
-                        <div class="swiper-slide card-testimoni">
-                            <img class="rounded-circle me-2" src="{{ asset('/img/default_profile.png') }}" style="width:40px; height:40px; object-fit:cover;">
-                            <div class="text-testimoni">
-                                <i class='bx bxs-quote-left'></i>
-                                <p>Belum ada testimoni</p>
-                                <i class='bx bxs-quote-right'></i>
-                            </div>
-                            <p class="username">System</p>
-                            <p class="status">No testimonials yet</p>
+                    <div class="swiper-slide card-testimoni">
+                        <img class="rounded-circle me-2" src="{{ asset('/img/default_profile.png') }}"
+                            style="width:40px; height:40px; object-fit:cover;">
+                        <div class="text-testimoni">
+                            <i class='bx bxs-quote-left'></i>
+                            <p>Belum ada testimoni</p>
+                            <i class='bx bxs-quote-right'></i>
                         </div>
+                        <p class="username">System</p>
+                        <p class="status">No testimonials yet</p>
+                    </div>
                     @endforelse
                 </div>
                 <div class="swiper-pagination"></div>
@@ -99,5 +104,5 @@
         </div>
     </div>
 </section>
-    
+
 @endsection

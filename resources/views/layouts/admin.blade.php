@@ -23,7 +23,7 @@
 
 <body id="page-top">
 
-    
+
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -36,11 +36,11 @@
             <div class="sidebar-brand-icon rotate-n-15">
                 <i class="fas fa-laugh-wink"></i>
             </div>
-            <div class="sidebar-brand-text mx-3">Welcome {{ Auth::user()->name }}</div>
+            <div class="mx-3 sidebar-brand-text">Welcome {{ Auth::user()->name }}</div>
         </a>
 
         <!-- Divider -->
-        <hr class="sidebar-divider my-0">
+        <hr class="my-0 sidebar-divider">
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
@@ -66,16 +66,16 @@
                 <span>Keahlian</span>
             </a>
             <div id="collapseKeahlian" class="collapse" aria-labelledby="headingKeahlian" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
+                <div class="py-2 bg-white rounded collapse-inner">
                     <h6 class="collapse-header">Kelola Keahlian:</h6>
                     <a class="collapse-item" href="{{ route('admin.bidang-keahlian.index') }}">
-                        <i class="fas fa-fw fa-book mr-1"></i>Bidang Keahlian
+                        <i class="mr-1 fas fa-fw fa-book"></i>Bidang Keahlian
                     </a>
                     <a class="collapse-item" href="{{ route('admin.program-keahlian.index') }}">
-                        <i class="fas fa-fw fa-bookmark mr-1"></i>Program Keahlian
+                        <i class="mr-1 fas fa-fw fa-bookmark"></i>Program Keahlian
                     </a>
                     <a class="collapse-item" href="{{ route('admin.konsentrasi-keahlian.index') }}">
-                        <i class="fas fa-fw fa-tag mr-1"></i>Konsentrasi Keahlian
+                        <i class="mr-1 fas fa-fw fa-tag"></i>Konsentrasi Keahlian
                     </a>
                 </div>
             </div>
@@ -134,13 +134,32 @@
             <div id="content">
 
             @include('partialsAdmin.navbar')
-                
+
+            <!-- Flash Messages -->
+            @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @endif
+
+            @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @endif
+
                @yield('content')
 
             <!-- Footer -->
-            <footer class="sticky-footer bg-white">
+            <footer class="bg-white sticky-footer">
                 <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
+                    <div class="my-auto text-center copyright">
                         <span>Copyright &copy; Your Website 2021</span>
                     </div>
                 </div>
@@ -154,7 +173,7 @@
     <!-- End of Page Wrapper -->
 
     <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
+    <a class="rounded scroll-to-top" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
 

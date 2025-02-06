@@ -2,16 +2,10 @@
 
 @section('content')
 <div class="container-fluid">
-    <h1 class="h3 mb-4 text-gray-800">Persetujuan Alumni</h1>
+    <h1 class="mb-4 text-gray-800 h3">Persetujuan Alumni</h1>
 
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
+    <div class="mb-4 shadow card">
+        <div class="py-3 card-header">
             <h6 class="m-0 font-weight-bold text-primary">Daftar Permintaan Persetujuan Alumni</h6>
         </div>
         <div class="card-body">
@@ -74,7 +68,7 @@
                                                 <i class="fas fa-check"></i> Setujui
                                             </button>
                                         </form>
-                                        <form action="{{ route('alumni.reject', $user) }}" method="POST" class="d-inline ml-1">
+                                        <form action="{{ route('alumni.reject', $user) }}" method="POST" class="ml-1 d-inline">
                                             @csrf
                                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tolak alumni ini?')">
                                                 <i class="fas fa-times"></i> Tolak
@@ -95,4 +89,4 @@
         </div>
     </div>
 </div>
-@endsection 
+@endsection

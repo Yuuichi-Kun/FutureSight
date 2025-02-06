@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Otakuspace')</title>
-    
+
     <!-- Vendor scripts - Pindahkan ke atas -->
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    
+
     <!-- Custom fonts for this template-->
     <link href="{{ asset('vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
     <link
@@ -25,16 +26,34 @@
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
 
-    
+
 </head>
+
 <body>
     @include('partials.navbar')
-    
+    <!-- Flash Messages -->
+    @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
+
+    @if(session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ session('error') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
+
     @yield('content')
 
     @include('partials.footer')
 
-    <!-- Scripts -->
     <!-- Core plugin JavaScript -->
     <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
@@ -56,7 +75,7 @@
     <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
 
     <script type="module">
-    import UserRegistryChart from '/js/registry-chart.js';
+        import UserRegistryChart from '/js/registry-chart.js';
 
     document.addEventListener('DOMContentLoaded', async () => {
         const chart = new UserRegistryChart();
@@ -65,47 +84,47 @@
         // Perbarui chart setiap 5 menit
         setInterval(() => chart.updateChart(), 300000);
     })
-</script>
+    </script>
 
-<!-- Tambahkan sebelum closing tag body -->
-<button id="backToTop" class="btn btn-primary back-to-top" title="Back to Top">
-    <i class="fas fa-arrow-up"></i>
-</button>
+    <!-- Tambahkan sebelum closing tag body -->
+    <button id="backToTop" class="btn btn-primary back-to-top" title="Back to Top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
-<style>
-.back-to-top {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    display: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    text-align: center;
-    padding: 0;
-    line-height: 40px;
-    z-index: 99;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    transition: all 0.3s ease;
-}
+    <style>
+        .back-to-top {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            display: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            text-align: center;
+            padding: 0;
+            line-height: 40px;
+            z-index: 99;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
 
-.back-to-top:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-}
+        .back-to-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
 
-@media (max-width: 768px) {
-    .back-to-top {
-        bottom: 15px;
-        right: 15px;
-    }
-}
-</style>
+        @media (max-width: 768px) {
+            .back-to-top {
+                bottom: 15px;
+                right: 15px;
+            }
+        }
+    </style>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
     const backToTop = document.getElementById('backToTop');
-    
+
     window.onscroll = function() {
         if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
             backToTop.style.display = "block";
@@ -121,14 +140,23 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-</script>
+    </script>
 
-@push('scripts')
+    @push('scripts')
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+
     <script>
         // Check for flash message
+        @if (session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: "{{ session('error') }}",
+                showConfirmButton: true
+            });
+        @endif
+
         @if (session('swal'))
             const swal = @json(session('swal'));
             Swal.fire({
@@ -140,6 +168,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         @endif
     </script>
-@endpush
+    @endpush
 </body>
+
 </html>
