@@ -198,3 +198,31 @@ select.form-select option {
     padding-right: 15px;
     padding-left: 15px;
 }
+
+/* Search Results Styling */
+#searchResults {
+    position: absolute;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#searchResults .list-group-item {
+    cursor: pointer;
+    padding: 0.75rem 1rem;
+}
+
+#searchResults .list-group-item:hover {
+    background-color: #f8f9fa;
+}
+
+/* Disabled input styling */
+input[readonly] {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+}

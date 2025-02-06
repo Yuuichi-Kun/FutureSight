@@ -7,8 +7,10 @@ use App\Models\Alumni;
 use App\Models\TahunLulus;
 use App\Models\KonsentrasiKeahlian;
 use App\Models\StatusAlumni;
+use App\Models\RawStudent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class AlumniRegisterController extends Controller
 {
@@ -83,5 +85,24 @@ class AlumniRegisterController extends Controller
         } catch (\Exception $e) {
             return back()->withInput()->withErrors(['error' => 'Terjadi kesalahan saat mendaftar. Silakan coba lagi.']);
         }
+    }
+
+    public function searchAlumni(Request $request)
+    {   
+        $search = $request->get('search');
+        
+        if (strlen($search) < 2) {
+            return response()->json([]);
+        }
+
+        $students = RawStudent::where(function($query) use ($search) {
+            $query->where(DB::raw("CONCAT(nama_depan, ' ', nama_belakang)"), 'LIKE', "%{$search}%")
+                  ->orWhere('nama_depan', 'LIKE', "%{$search}%")
+                  ->orWhere('nama_belakang', 'LIKE', "%{$search}%");
+        })
+        ->select('id_raw_student', 'nama_depan', 'nama_belakang', 'nisn', 'nik')
+        ->get();
+        
+        return response()->json($students);
     }
 }

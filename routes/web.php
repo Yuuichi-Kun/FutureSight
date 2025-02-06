@@ -27,6 +27,8 @@ use App\Http\Controllers\ContactController;
 
 // Default route should not require authentication
 Route::get('/', [HomeController::class, 'welcome'])->name('welcome');
+// Add this inside the auth middleware group
+Route::get('/api/search-alumni', [AlumniRegisterController::class, 'searchAlumni'])->name('api.search-alumni');
 
 // Authentication Routes (without email verification)
 Auth::routes();
