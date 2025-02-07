@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\ForumMonitoringController;
 use App\Http\Controllers\Admin\SchoolController;
 use App\Http\Controllers\SchoolProfileController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Admin\RawStudentController;
 
 // Default route should not require authentication
 Route::get('/', [HomeController::class, 'welcome'])->name('welcome');
@@ -171,6 +172,14 @@ Route::middleware(['auth', 'verified', 'user-access:admin'])->group(function () 
         Route::post('/school', [SchoolController::class, 'store'])->name('admin.school.store');
         Route::put('/school/{school}', [SchoolController::class, 'update'])->name('admin.school.update');
     });
+
+    // Raw Students Routes
+    Route::get('/admin/raw-students', [RawStudentController::class, 'index'])->name('admin.raw-students.index');
+    Route::get('/admin/raw-students/create', [RawStudentController::class, 'create'])->name('admin.raw-students.create');
+    Route::post('/admin/raw-students', [RawStudentController::class, 'store'])->name('admin.raw-students.store');
+    Route::get('/admin/raw-students/{rawStudent}/edit', [RawStudentController::class, 'edit'])->name('admin.raw-students.edit');
+    Route::put('/admin/raw-students/{rawStudent}', [RawStudentController::class, 'update'])->name('admin.raw-students.update');
+    Route::delete('/admin/raw-students/{rawStudent}', [RawStudentController::class, 'destroy'])->name('admin.raw-students.destroy');
 });
 
 // Authentication Routes

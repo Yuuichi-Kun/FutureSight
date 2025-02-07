@@ -100,8 +100,26 @@ class AlumniRegisterController extends Controller
                   ->orWhere('nama_depan', 'LIKE', "%{$search}%")
                   ->orWhere('nama_belakang', 'LIKE', "%{$search}%");
         })
-        ->select('id_raw_student', 'nama_depan', 'nama_belakang', 'nisn', 'nik')
-        ->get();
+        ->select(
+            'id_raw_student',
+            'nisn',
+            'nik',
+            'nama_depan',
+            'nama_belakang',
+            'tempat_lahir',
+            'tgl_lahir',
+            'alamat'
+        )
+        ->get()
+        ->map(function ($student) {
+            // Memastikan format tanggal yang benar
+            if ($student->tgl_lahir) {
+                $student->tgl_lahir = $student->tgl_lahir instanceof \Carbon\Carbon 
+                    ? $student->tgl_lahir->format('Y-m-d')
+                    : $student->tgl_lahir;
+            }
+            return $student;
+        });
         
         return response()->json($students);
     }

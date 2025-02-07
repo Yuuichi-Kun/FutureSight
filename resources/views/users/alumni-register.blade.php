@@ -420,9 +420,94 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
+    #searchResults .list-group-item {
+        padding: 10px 15px;
+        border-left: 3px solid transparent;
+        transition: all 0.2s ease;
+    }
+
     #searchResults .list-group-item:hover {
-        background-color: #f8f9fa;
+        border-left-color: #4e73df;
+        background-color: #f8f9fc;
+    }
+
+    /* Tambahkan loading indicator */
+    .search-loading {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: none;
+    }
+
+    .search-loading::after {
+        content: '';
+        display: block;
+        width: 20px;
+        height: 20px;
+        border: 2px solid #ccc;
+        border-radius: 50%;
+        border-top-color: #007bff;
+        animation: spin 0.6s linear infinite;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    .student-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .student-name {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .student-details {
+        font-size: 0.85em;
+        color: #666;
+    }
+
+    .student-info {
+        padding: 8px 0;
+    }
+
+    .student-name {
+        display: block;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 4px;
+    }
+
+    .student-details {
+        display: block;
+        font-size: 0.85rem;
+        color: #6c757d;
+        margin-bottom: 2px;
+    }
+
+    .student-details i {
+        width: 16px;
+        text-align: center;
+        margin-right: 4px;
+    }
+
+    #searchResults .list-group-item {
+        padding: 8px 15px;
+        border-left: 3px solid transparent;
+        transition: all 0.2s ease;
         cursor: pointer;
+    }
+
+    #searchResults .list-group-item:hover {
+        border-left-color: #4e73df;
+        background-color: #f8f9fc;
+    }
+
+    .me-1 {
+        margin-right: 0.25rem !important;
     }
 </style>
 
@@ -436,6 +521,8 @@
     const searchInput = document.getElementById('searchAlumni');
     const searchResults = document.getElementById('searchResults');
     let timeoutId;
+    let currentHoveredItem = null;
+    let originalFormData = {};
 
     // Show terms modal when clicking register button
     showTermsButton.addEventListener('click', function() {
@@ -447,6 +534,65 @@
         submitButton.disabled = !this.checked;
     });
 
+    // Simpan nilai awal form
+    function saveOriginalFormData() {
+        originalFormData = {
+            nisn: document.querySelector('input[name="nisn"]').value,
+            nik: document.querySelector('input[name="nik"]').value,
+            nama_depan: document.querySelector('input[name="nama_depan"]').value,
+            nama_belakang: document.querySelector('input[name="nama_belakang"]').value,
+            tempat_lahir: document.querySelector('input[name="tempat_lahir"]').value,
+            tgl_lahir: document.querySelector('input[name="tgl_lahir"]').value,
+            alamat: document.querySelector('textarea[name="alamat"]').value
+        };
+    }
+
+    // Kembalikan nilai form ke kondisi sebelumnya
+    function restoreOriginalFormData() {
+        if (currentHoveredItem) {
+            document.querySelector('input[name="nisn"]').value = originalFormData.nisn;
+            document.querySelector('input[name="nik"]').value = originalFormData.nik;
+            document.querySelector('input[name="nama_depan"]').value = originalFormData.nama_depan;
+            document.querySelector('input[name="nama_belakang"]').value = originalFormData.nama_belakang;
+            document.querySelector('input[name="tempat_lahir"]').value = originalFormData.tempat_lahir;
+            document.querySelector('input[name="tgl_lahir"]').value = originalFormData.tgl_lahir;
+            document.querySelector('textarea[name="alamat"]').value = originalFormData.alamat;
+            
+            currentHoveredItem = null;
+        }
+    }
+
+    // Fungsi untuk mengisi form
+    function fillFormData(student) {
+        document.querySelector('input[name="nisn"]').value = student.nisn || '';
+        document.querySelector('input[name="nik"]').value = student.nik || '';
+        document.querySelector('input[name="nama_depan"]').value = student.nama_depan || '';
+        document.querySelector('input[name="nama_belakang"]').value = student.nama_belakang || '';
+    }
+
+    function formatDate(dateString) {
+        if (!dateString) return '-';
+        try {
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) return '-'; // Invalid date
+            return new Intl.DateTimeFormat('id-ID', {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric'
+            }).format(date);
+        } catch (e) {
+            return '-';
+        }
+    }
+
+    function formatAddress(address) {
+        return address ? address : '-';
+    }
+
+    function formatName(firstName, lastName) {
+        return `${firstName || ''} ${lastName || ''}`.trim() || '-';
+    }
+
     searchInput.addEventListener('input', function() {
         clearTimeout(timeoutId);
         const search = this.value.trim();
@@ -456,49 +602,73 @@
             return;
         }
 
+        // Tambahkan loading indicator
+        const loadingDiv = document.createElement('div');
+        loadingDiv.className = 'search-loading';
+        this.parentNode.appendChild(loadingDiv);
+
         timeoutId = setTimeout(() => {
-            console.log('Searching for:', search);
-            
             fetch(`/api/search-alumni?search=${encodeURIComponent(search)}`)
-                .then(response => {
-                    console.log('Response status:', response.status);
-                    return response.json();
-                })
+                .then(response => response.json())
                 .then(data => {
-                    console.log('Search results:', data);
                     searchResults.innerHTML = '';
                     if (data.length > 0) {
                         data.forEach(student => {
+                            console.log('Student data:', student); // Debugging
                             const div = document.createElement('div');
-                            div.className = 'list-group-item list-group-item-action';
-                            div.textContent = `${student.nama_depan} ${student.nama_belakang}`;
+                            div.className = 'list-group-item';
+                            div.innerHTML = `
+                                <div class="student-info">
+                                    <span class="student-name">
+                                        ${formatName(student.nama_depan, student.nama_belakang)}
+                                    </span>
+                                    <span class="student-details">
+                                        <i class="fas fa-map-marker-alt me-1"></i> 
+                                        ${formatAddress(student.alamat)}
+                                    </span>
+                                    <span class="student-details">
+                                        <i class="fas fa-calendar-alt me-1"></i> 
+                                        ${formatDate(student.tgl_lahir)}
+                                    </span>
+                                </div>
+                            `;
+                            
+                            div.addEventListener('mouseenter', () => {
+                                if (currentHoveredItem !== div) {
+                                    saveOriginalFormData();
+                                    currentHoveredItem = div;
+                                    fillFormData(student);
+                                }
+                            });
+
+                            div.addEventListener('mouseleave', () => {
+                                restoreOriginalFormData();
+                            });
+
                             div.addEventListener('click', () => {
-                                // Autofill form fields
-                                document.querySelector('input[name="nisn"]').value = student.nisn || '';
-                                document.querySelector('input[name="nik"]').value = student.nik || '';
-                                document.querySelector('input[name="nama_depan"]').value = student.nama_depan || '';
-                                document.querySelector('input[name="nama_belakang"]').value = student.nama_belakang || '';
-                                
-                                // Disable nama fields if data is found
-                                document.querySelector('input[name="nama_depan"]').readOnly = true;
-                                document.querySelector('input[name="nama_belakang"]').readOnly = true;
-                                
+                                fillFormData(student);
                                 searchResults.style.display = 'none';
                                 searchInput.value = `${student.nama_depan} ${student.nama_belakang}`;
+                                currentHoveredItem = null;
                             });
+
                             searchResults.appendChild(div);
                         });
                         searchResults.style.display = 'block';
                     } else {
                         searchResults.style.display = 'none';
-                        // Enable nama fields if no data is found
-                        document.querySelector('input[name="nama_depan"]').readOnly = false;
-                        document.querySelector('input[name="nama_belakang"]').readOnly = false;
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
                     searchResults.style.display = 'none';
+                })
+                .finally(() => {
+                    // Hapus loading indicator
+                    const loadingElement = document.querySelector('.search-loading');
+                    if (loadingElement) {
+                        loadingElement.remove();
+                    }
                 });
         }, 300);
     });
@@ -507,6 +677,9 @@
     document.addEventListener('click', function(e) {
         if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
             searchResults.style.display = 'none';
+            if (!currentHoveredItem) {
+                restoreOriginalFormData();
+            }
         }
     });
 });

@@ -16,6 +16,15 @@ class RawStudent extends Model
         'nisn',
         'nik',
         'nama_depan',
-        'nama_belakang'
+        'nama_belakang',
+        'tempat_lahir',
+        'tgl_lahir',
+        'alamat'
+    ];
+
+    protected $dates = ['tgl_lahir'];
+
+    protected $casts = [
+        'tgl_lahir' => 'date'
     ];
 } 

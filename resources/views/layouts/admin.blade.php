@@ -121,6 +121,14 @@
             </a>
         </li>
 
+        <!-- Nav Item - Raw Students -->
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.raw-students.index') }}">
+                <i class="fas fa-fw fa-users"></i>
+                <span>Data Siswa</span>
+            </a>
+        </li>
+
         <!-- Divider -->
         <hr class="sidebar-divider">
 
