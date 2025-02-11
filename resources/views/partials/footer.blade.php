@@ -54,9 +54,12 @@
                 <p>Ada pertanyaan atau masukan?</p>
                 <form action="{{ route('contact.store') }}" method="POST" class="form-input">
                     @csrf
-                    <div class="input-group flex-column flex-sm-row">
-                        <input type="email" name="email" class="form-control mb-2 mb-sm-0 w-100" placeholder="Masukkan email Anda" required>
-                        <button type="submit" class="btn btn-primary w-100 w-sm-auto">Kirim</button>
+                    <div class="input-group flex-column">
+                        <input type="text" name="name" class="form-control mb-2 w-100" placeholder="Masukkan nama Anda" required>
+                        <div class="d-flex">
+                            <input type="email" name="email" class="form-control mb-2 me-2" placeholder="Masukkan email Anda" required>
+                            <button type="submit" class="btn btn-primary">Kirim</button>
+                        </div>
                     </div>
                 </form>
             </div>

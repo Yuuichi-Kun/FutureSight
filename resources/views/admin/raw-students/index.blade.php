@@ -12,6 +12,13 @@
     <div class="card shadow mb-4">
         <div class="card-body">
             <div class="table-responsive">
+
+            @if(session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
                 <table class="table table-bordered">
                     <thead>
                         <tr>

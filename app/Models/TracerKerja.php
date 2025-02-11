@@ -11,6 +11,7 @@ class TracerKerja extends Model
 
     protected $table = 'tbl_tracer_kerja';
     protected $primaryKey = 'id_tracer_kerja';
+    public $timestamps = true;
 
     protected $fillable = [
         'id_alumni',
@@ -23,7 +24,9 @@ class TracerKerja extends Model
         'tracer_kerja_lokasi',
         'tracer_kerja_alamat',
         'tracer_kerja_tgl_mulai',
-        'tracer_kerja_gaji'
+        'tracer_kerja_gaji',
+        'created_at',
+        'updated_at'
     ];
 
     protected $casts = [

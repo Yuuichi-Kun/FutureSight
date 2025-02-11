@@ -47,23 +47,27 @@ class QuestionnaireController extends Controller
                 ->with('error', 'Anda tidak memiliki akses ke fitur ini.');
         }
 
-        // Validasi input
-        $validated = $request->validate([
-            'tracer_kerja_pekerjaan' => 'required|string|max:50',
-            'tracer_kerja_nama' => 'required|string|max:50',
-            'jenis_perusahaan' => 'required|in:BUMN,Swasta,Wiraswasta',
-            'bentuk_lembaga' => 'required|in:PT,CV,Firma,Perseorangan',
-            'tracer_kerja_jabatan' => 'required|string|max:50',
-            'tracer_kerja_status' => 'required|in:Tetap,Kontrak,Freelance',
-            'tracer_kerja_lokasi' => 'required|string|max:50',
-            'tracer_kerja_alamat' => 'required|string|max:50',
-            'tracer_kerja_tgl_mulai' => 'required|date',
-            'tracer_kerja_gaji' => 'required|in:< 1 juta,1-3 juta,3-5 juta,> 5 juta',
-        ]);
-
         try {
+            // Validasi input
+            $validated = $request->validate([
+                'tracer_kerja_pekerjaan' => 'required|string|max:255',
+                'tracer_kerja_nama' => 'required|string|max:255',
+                'jenis_perusahaan' => 'required|string|in:BUMN,Swasta,Wiraswasta',
+                'bentuk_lembaga' => 'required|string|in:PT,CV,Firma,Perseorangan',
+                'tracer_kerja_jabatan' => 'required|string|max:255',
+                'tracer_kerja_status' => 'required|string|in:Tetap,Kontrak,Freelance',
+                'tracer_kerja_lokasi' => 'required|string|max:255',
+                'tracer_kerja_alamat' => 'required|string|max:255',
+                'tracer_kerja_tgl_mulai' => 'required|date',
+                'tracer_kerja_gaji' => 'required|string|in:< 1 juta,1-3 juta,3-5 juta,> 5 juta',
+            ]);
+
             // Tambahkan id_alumni ke data yang akan disimpan
             $validated['id_alumni'] = auth()->user()->alumni->id_alumni;
+            
+            // Tambahkan timestamps jika belum ada
+            $validated['created_at'] = now();
+            $validated['updated_at'] = now();
 
             // Cek apakah data sudah ada
             $existingData = TracerKerja::where('id_alumni', $validated['id_alumni'])->first();
@@ -79,9 +83,14 @@ class QuestionnaireController extends Controller
             }
 
             return redirect()->back()->with('success', $message);
+
         } catch (\Exception $e) {
+            // Log error untuk debugging
+            \Log::error('Error saving tracer kerja: ' . $e->getMessage());
+            \Log::error($e->getTraceAsString());
+
             return redirect()->back()
-                ->with('error', 'Terjadi kesalahan saat menyimpan data pekerjaan.')
+                ->with('error', 'Terjadi kesalahan saat menyimpan data pekerjaan: ' . $e->getMessage())
                 ->withInput();
         }
     }
