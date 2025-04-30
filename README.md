@@ -13,6 +13,6 @@ Instruction:
 6. php artisan db:seed --class=StatusAlumniSeeder
 7. php artisan key:generate
 8. php artisan serve
-9. npm build dev
+9. npm run dev
 
 UPDATE: It's finally done! I have done most of it and the web can be considered done.
